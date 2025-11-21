@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{mensaje}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+    body {
+            margin: 0;
+            padding: 0;
+            background-image: url('static/hotel_fondo.jpeg'); /* Cambiar ruta dinámica a estática */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    .navbar {
+     background-color: transparent !important;
+    }
+    h1{
+    color: red;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    }
+    </style>
+</head>
+
+<body >
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+           <a class="navbar-brand" href="#" style="color: #fff; padding: 15px;font-weight: bold;">VL Alojamientos</a>
+           <ul class="nav justify-content-end">
+           <a style= "color: #fff;padding: 20px;" class="icon-link icon-link-hover" href="{{url_for('home')}}">Home
+             <i class="bi bi-house-door"></i></a>
+           </ul>
+     </div>
+    </nav>
+<div class="container text-center">
+    <div class="row align-items-end">
+       <div class="col">
+
+       </div>
+       <div class="col col-8">
+         <div class="card" style="background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con 0.9 de opacidad */">
+           <div class="card-body">
+                <h1>{{ mensaje }}</h1>
+                <a class="btn btn-dark btn-lg btn-block" href="{{url_for('home')}}">Volver al inicio</a>
+           </div>
+         </div>
+       </div>
+        <div class="col">
+
+       </div>
+    </div>
+</div>
+</body>
+</html>

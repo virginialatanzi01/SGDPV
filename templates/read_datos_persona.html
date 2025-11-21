@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos de la cuenta - VL Alojamientos</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; /* Reset margin to ensure full-width background */
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Optional: This ensures the background remains fixed while scrolling */
+        }
+
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar img {
+            height: 60px;
+        }
+
+        .register-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 150px;
+            width: 60%;
+            max-width: 800px;
+        }
+
+        .mi-cuenta-title {
+            font-family: 'Cambria Math', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: black; /* Color negro */
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: 'Cambria Math', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #D0963E;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-family: 'Arial', serif;
+            font-size: 14px;
+            color: black;
+            margin-bottom: 5px;
+        }
+
+        .form-control, .form-select {
+            font-size: 14px;
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .btn-accept {
+            background-color: #D0963E;
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+
+        .btn-cancel {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            border: 1px solid #ccc;
+        }
+
+        .d-flex button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra superior -->
+    <div class="top-bar">
+        <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo Secundario">
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="register-card">
+            <h1 class="mi-cuenta-title">Datos de mi cuenta</h1>
+            <!-- Datos personales -->
+            <p class="section-title">Datos personales</p>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p>
+                        <label>Tipo de documento</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.tipo_documento }}" readonly>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <label>Número de documento</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.nro_documento }}" readonly>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <p>
+                        <label>Nombre</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.nombre }}" readonly>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <label>Apellido</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.apellido }}" readonly>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <label>Fecha de nacimiento</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.fecha_nacimiento }}" readonly>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p>
+                        <label>Email</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.email }}" readonly>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <label>Teléfono</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.telefono }}" readonly>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Datos de la cuenta -->
+            <p class="section-title">Datos de la cuenta</p>
+
+            {% if persona_logueada.tipo_persona == 'administrador' %}
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p>
+                        <label>Tipo de persona</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.tipo_persona }}" readonly>
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p>
+                        <label>Usuario</label><br/>
+                        <input type="text" class="form-control form-control-lg" value="{{ persona.nombre_usuario }}" readonly>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <label>Contraseña</label><br/>
+                        <input type="password" class="form-control form-control-lg" value="********" readonly>
+                    </p>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-accept" disabled>Editar</button>
+                <a href="{{ url_for('home') }}" class="btn btn-cancel ms-2">Volver</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

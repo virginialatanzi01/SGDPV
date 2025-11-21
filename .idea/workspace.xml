@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eff77882-2421-4105-80e4-b49376917cbe" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/data/data_habitacion.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/data_tipo_habitacion.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/cargar_datos.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/crear db.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/habitacion_form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/habitacion_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/tipo_habitacion_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/habitacion_logic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/alta_persona.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/editar_persona.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/read_datos_persona.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2rsCbVy1qrRzzLfcPe6cMarEvGY" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JavaScript Debug.login.html.executor": "Run",
+    "JavaScript Debug.registro_persona.html.executor": "Run",
+    "Python.agregar_datos_prueba.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.cargar_datos.executor": "Run",
+    "Python.crear db.executor": "Run",
+    "Python.prueba_coenxion.executor": "Run",
+    "Python.prueba_conexion.executor": "Run",
+    "Python.ver_datos_prueba.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\VIRGI\Desktop\TP_SGDPV\db_pruebas" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eff77882-2421-4105-80e4-b49376917cbe" name="Changes" comment="" />
+      <created>1737338468703</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1737338468703</updated>
+      <workItem from="1737338469357" duration="1108000" />
+      <workItem from="1737409929978" duration="5909000" />
+      <workItem from="1737428342564" duration="2011000" />
+      <workItem from="1737430456750" duration="107000" />
+      <workItem from="1737577883671" duration="8267000" />
+      <workItem from="1737666763804" duration="4953000" />
+      <workItem from="1737831770016" duration="20044000" />
+      <workItem from="1737943432056" duration="2212000" />
+      <workItem from="1738019863681" duration="4888000" />
+      <workItem from="1738029819181" duration="15461000" />
+      <workItem from="1738180803935" duration="10301000" />
+      <workItem from="1738268477117" duration="13285000" />
+      <workItem from="1738712370187" duration="12314000" />
+      <workItem from="1739837232415" duration="9276000" />
+      <workItem from="1739998043233" duration="3537000" />
+      <workItem from="1763070119188" duration="105000" />
+      <workItem from="1763070582698" duration="601000" />
+      <workItem from="1763072889538" duration="6513000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/app_py$prueba_coenxion.coverage" NAME="prueba_coenxion Coverage Results" MODIFIED="1737915146007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
+    <SUITE FILE_PATH="coverage/app_py$ver_datos_prueba.coverage" NAME="ver_datos_prueba Coverage Results" MODIFIED="1740013460107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
+    <SUITE FILE_PATH="coverage/app_py$agregar_datos_prueba.coverage" NAME="agregar_datos_prueba Coverage Results" MODIFIED="1737934377031" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db" />
+    <SUITE FILE_PATH="coverage/app_py$crear_db.coverage" NAME="crear db Coverage Results" MODIFIED="1740000413489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
+    <SUITE FILE_PATH="coverage/TP_SGDPV$app.coverage" NAME="app Coverage Results" MODIFIED="1737411259548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$prueba_conexion.coverage" NAME="prueba_conexion Coverage Results" MODIFIED="1737917802992" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
+    <SUITE FILE_PATH="coverage/app_py$cargar_datos.coverage" NAME="cargar_datos Coverage Results" MODIFIED="1740013830826" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1737951334134" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

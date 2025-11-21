@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - VL Alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Copperplate:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('static/hotel_fondo.jpeg'); /* Imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Para permitir que el contenido se desplace verticalmente */
+            min-height: 100vh;
+            overflow-x: hidden; /* Evitar scroll horizontal */
+        }
+
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            color: white;
+            font-size: 18px;
+        }
+
+        .top-bar img {
+            height: 50px;
+        }
+
+        .logout-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+        .center-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            margin-top: 100px; /* Espaciado desde la barra superior */
+            margin-bottom: 50px; /* Espaciado al final */
+        }
+
+        .center-box img {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-message {
+            font-family: "Cambria Math", serif;
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        h1, h2 {
+            font-family: "Cambria Math", serif;
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            width: 80%;
+            text-align: center;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        /* Estilo de botones de Cliente */
+        .button-reservar {
+            background-color: black;
+        }
+
+        .button-reservar:hover {
+            background-color: #444;
+        }
+
+        .button-mis-reservas {
+            background-color: #03B615;
+        }
+
+        .button-mis-reservas:hover {
+            background-color: #028F12;
+        }
+
+        .button-mi-cuenta {
+            background-color: #F0AA3A;
+        }
+
+        .button-mi-cuenta:hover {
+            background-color: #D0902E;
+        }
+
+        /* Estilo de botones de Administrador */
+        .button-admin {
+            background-color: black;
+        }
+
+        .button-admin:hover {
+            background-color: #444;
+        }
+
+        .button-check-in {
+            background-color: #03B615;
+        }
+
+        .button-check-in:hover {
+            background-color: #028F12;
+        }
+
+        .button-check-out {
+            background-color: red;
+        }
+
+        .button-check-out:hover {
+            background-color: #B30000;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div>
+            {% if persona_logueada.tipo_persona == 'administrador' %}
+                <span>Perfil de administrador</span>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-link">CERRAR SESIÓN</a>
+    </div>
+
+    <div class="center-box">
+        <img src="static/hotel_logo.png" alt="VL ALOJAMIENTOS">
+        <h1>Bienvenido, {{ persona_logueada.nombre }}</h1>
+        <br>
+        <div class="buttons-container">
+            {% if persona_logueada.tipo_persona == 'cliente' %}
+                <button class="button button-reservar">Reservar alojamiento</button>
+                <button class="button button-mis-reservas">Mis reservas</button>
+                <a href="{{ url_for('read_datos_persona', id=persona_logueada.id) }}" class="button button-mi-cuenta">Mi cuenta</a>
+            {% elif persona_logueada.tipo_persona == 'administrador' %}
+                <a href="{{ url_for('add_persona') }}" class="button button-admin">Añadir persona</a>
+                <button class="button button-admin">Enviar recordatorios</button>
+                <button class="button button-check-in">Check-in</button>
+                <button class="button button-admin">Añadir servicios</button>
+                <button class="button button-check-out">Check-out</button>
+                <button class="button button-admin">Reportes</button>
+                <a href="{{ url_for('read_datos_persona', id=persona_logueada.id) }}" class="button button-mi-cuenta">Mi cuenta</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

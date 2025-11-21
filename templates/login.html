@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iniciar sesión - VL alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('static/hotel_fondo.jpeg'); /* Cambiar ruta dinámica a estática */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            width: 350px;
+        }
+
+        .login-card img {
+            width: 50%; /* Ajustar el tamaño del logo */
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .btn-login {
+            background-color: #d0963e;
+            color: white;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .btn-login:hover {
+            background-color: #dc8f3f;
+        }
+
+        .register-link {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card text-center">
+        <img src="static/hotel_logo.png" alt="VL ALOJAMIENTOS">
+
+        <form method="POST">
+            <div class="mb-3">
+                <input type="text" name="nombre_usuario" id="nombre_usuario" class="form-control" placeholder="Ingresa tu nombre de usuario" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <button type="submit" class="btn btn-login">INICIAR SESIÓN</button>
+        </form>
+        <div class="mt-3">
+            <p>¿Aún no tienes una cuenta? <a href="{{ url_for('add_persona') }}" class="register-link">Registrarse</a></p>
+        </div>
+    </div>
+</body>
+</html>

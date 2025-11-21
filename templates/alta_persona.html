@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear cuenta - VL Alojamientos</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0; /* Reset margin to ensure full-width background */
+            padding: 0;
+            background-image: url('static/hotel_fondo.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Optional: This ensures the background remains fixed while scrolling */
+        }
+
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar img {
+            height: 60px;
+        }
+
+        .navbar {
+            background-color: transparent !important;
+        }
+
+        .register-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 150px;
+            width: 60%;
+            max-width: 800px;
+        }
+
+        .register-card h1 {
+            font-family: 'Cambria Math', serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: 'Cambria Math', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #D0963E;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-family: 'Arial', serif;
+            font-size: 14px;
+            color: black;
+            margin-bottom: 5px;
+        }
+
+        .form-control, .form-select {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-accept {
+            background-color: #D0963E;
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+
+        .btn-cancel {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            border: 1px solid #ccc;
+        }
+
+        .d-flex button {
+            margin-left: 10px;
+        }
+
+        #mensaje_nombre_usuario {
+            font-size: 12px;
+            margin-top: -10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Barra superior -->
+    <div class="top-bar">
+        <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo Secundario">
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="register-card">
+            <h1>Crear una cuenta</h1>
+            <form method="POST">
+                {{ persona_agregar.csrf_token }}
+
+                <!-- Datos personales -->
+                <p class="section-title">Datos personales</p>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.tipo_documento.label }} <br/>
+                            {{ persona_agregar.tipo_documento(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.nro_documento.label }} <br/>
+                            {{ persona_agregar.nro_documento(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <p>
+                            {{ persona_agregar.nombre.label }} <br/>
+                            {{ persona_agregar.nombre(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>
+                            {{ persona_agregar.apellido.label }} <br/>
+                            {{ persona_agregar.apellido(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>
+                            {{ persona_agregar.fecha_nacimiento.label }} <br/>
+                            <input type="text" name="fecha_nacimiento" class="form-control form-control-lg" placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" required>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.email.label }} <br/>
+                            {{ persona_agregar.email(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.telefono.label }} <br/>
+                            {{ persona_agregar.telefono(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Datos de la cuenta -->
+                <p class="section-title">Datos de la cuenta</p>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.tipo_persona.label }} <br/>
+                            {{ persona_agregar.tipo_persona(class="form-control form-control-lg") }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.nombre_usuario.label }} <br/>
+                            {{ persona_agregar.nombre_usuario(class="form-control form-control-lg", id='nombre_usuario') }}
+                            <span id="mensaje_nombre_usuario" style="color: red;"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            {{ persona_agregar.contrasena.label }} <br/>
+                            {{ persona_agregar.contrasena(class="form-control form-control-lg", type="password") }}
+                        </p>
+                    </div>
+                </div>
+
+                <p>
+                    {{ persona_agregar.guardar(class="btn btn-accept") }}
+                    <a href="{{ url_for('login') }}" class="btn btn-cancel ms-2">Cancelar</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+var typingTimer;
+var doneTypingInterval = 500;  // Intervalo en milisegundos (0.5 segundos)
+
+$(document).ready(function () {
+    // Manejar el evento de cambio en el campo nombre_usuario
+    $('#nombre_usuario').on('input', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    // Manejar el evento de teclado para reiniciar el temporizador
+    $('#nombre_usuario').on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    function doneTyping() {
+        var nombreUsuario = $('#nombre_usuario').val();
+
+        // Realizar la solicitud AJAX al servidor
+        $.ajax({
+            type: 'POST',
+            url: '/validar_nombre_usuario',
+            data: {nombre_usuario: nombreUsuario},
+            success: function (response) {
+                if (response.existe) {
+                    $('#mensaje_nombre_usuario').text('Nombre de usuario ya existente');
+                } else {
+                    $('#mensaje_nombre_usuario').text('');
+                }
+            }
+        });
+    }
+});
+</script>
+</html>

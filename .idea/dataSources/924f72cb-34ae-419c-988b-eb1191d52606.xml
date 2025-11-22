@@ -3,9 +3,8 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>784</IntrospectionStateNumber>
       <ServerVersion>17.2</ServerVersion>
-      <StartupTime>1763040869</StartupTime>
+      <StartupTime>1763822077</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -800,7 +799,6 @@ false Zulu
 14704||10|C|G
 14704||-9223372036854775808|U|G
 14704||10|U|G</Grants>
-      <IntrospectionStateNumber>784</IntrospectionStateNumber>
       <ObjectId>16387</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -809,53 +807,53 @@ false Zulu
       <ObjectId>5</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
-    <role id="4" parent="1" name="pg_checkpoint">
-      <ObjectId>4544</ObjectId>
-    </role>
-    <role id="5" parent="1" name="pg_create_subscription">
-      <ObjectId>6304</ObjectId>
-    </role>
-    <role id="6" parent="1" name="pg_database_owner">
+    <role id="4" parent="1" name="pg_database_owner">
       <ObjectId>6171</ObjectId>
     </role>
-    <role id="7" parent="1" name="pg_execute_server_program">
-      <ObjectId>4571</ObjectId>
+    <role id="5" parent="1" name="pg_read_all_data">
+      <ObjectId>6181</ObjectId>
     </role>
-    <role id="8" parent="1" name="pg_maintain">
-      <ObjectId>6337</ObjectId>
+    <role id="6" parent="1" name="pg_write_all_data">
+      <ObjectId>6182</ObjectId>
     </role>
-    <role id="9" parent="1" name="pg_monitor">
+    <role id="7" parent="1" name="pg_monitor">
       <ObjectId>3373</ObjectId>
       <RoleGrants>3374
 3375
 3377</RoleGrants>
     </role>
-    <role id="10" parent="1" name="pg_read_all_data">
-      <ObjectId>6181</ObjectId>
-    </role>
-    <role id="11" parent="1" name="pg_read_all_settings">
+    <role id="8" parent="1" name="pg_read_all_settings">
       <ObjectId>3374</ObjectId>
     </role>
-    <role id="12" parent="1" name="pg_read_all_stats">
+    <role id="9" parent="1" name="pg_read_all_stats">
       <ObjectId>3375</ObjectId>
     </role>
-    <role id="13" parent="1" name="pg_read_server_files">
+    <role id="10" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+    </role>
+    <role id="11" parent="1" name="pg_read_server_files">
       <ObjectId>4569</ObjectId>
+    </role>
+    <role id="12" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
+    </role>
+    <role id="13" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
     </role>
     <role id="14" parent="1" name="pg_signal_backend">
       <ObjectId>4200</ObjectId>
     </role>
-    <role id="15" parent="1" name="pg_stat_scan_tables">
-      <ObjectId>3377</ObjectId>
+    <role id="15" parent="1" name="pg_checkpoint">
+      <ObjectId>4544</ObjectId>
     </role>
-    <role id="16" parent="1" name="pg_use_reserved_connections">
+    <role id="16" parent="1" name="pg_maintain">
+      <ObjectId>6337</ObjectId>
+    </role>
+    <role id="17" parent="1" name="pg_use_reserved_connections">
       <ObjectId>4550</ObjectId>
     </role>
-    <role id="17" parent="1" name="pg_write_all_data">
-      <ObjectId>6182</ObjectId>
-    </role>
-    <role id="18" parent="1" name="pg_write_server_files">
-      <ObjectId>4570</ObjectId>
+    <role id="18" parent="1" name="pg_create_subscription">
+      <ObjectId>6304</ObjectId>
     </role>
     <role id="19" parent="1" name="postgres">
       <BypassRls>1</BypassRls>
@@ -4228,9 +4226,6 @@ false Zulu
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <LastIntrospectionL1Xid>784</LastIntrospectionL1Xid>
-      <LastIntrospectionL2Xid>784</LastIntrospectionL2Xid>
-      <LastIntrospectionL3Xid>784</LastIntrospectionL3Xid>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
       <LastIntrospectionLocalTimestamp>2025-11-22.01:57:11</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
@@ -4321,52 +4316,44 @@ false Zulu
     </table>
     <table id="276" parent="265" name="tipo_habitacion">
       <DetailsLevel>2</DetailsLevel>
-      <ObjectId>16451</ObjectId>
-      <StateNumber>782</StateNumber>
+      <ObjectId>16514</ObjectId>
+      <StateNumber>801</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="277" parent="265" name="tipohabitacion">
-      <DetailsLevel>2</DetailsLevel>
-      <ObjectId>16415</ObjectId>
-      <StateNumber>764</StateNumber>
-      <AccessMethodId>2</AccessMethodId>
-      <OwnerName>postgres</OwnerName>
-    </table>
-    <column id="278" parent="272" name="id">
+    <column id="277" parent="272" name="id">
       <DefaultExpression>nextval(&apos;estadia_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>766</StateNumber>
       <StoredType>integer|0s</StoredType>
-      <SequenceId>16423</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="279" parent="272" name="fecha_ingreso">
+    <column id="278" parent="272" name="fecha_ingreso">
       <Position>2</Position>
       <StateNumber>766</StateNumber>
       <StoredType>date|0s</StoredType>
       <TypeId>1082</TypeId>
     </column>
-    <column id="280" parent="272" name="fecha_egreso">
+    <column id="279" parent="272" name="fecha_egreso">
       <Position>3</Position>
       <StateNumber>766</StateNumber>
       <StoredType>date|0s</StoredType>
       <TypeId>1082</TypeId>
     </column>
-    <column id="281" parent="272" name="estado">
+    <column id="280" parent="272" name="estado">
       <Position>4</Position>
       <StateNumber>766</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="282" parent="272" name="precio_total">
+    <column id="281" parent="272" name="precio_total">
       <Position>5</Position>
       <StateNumber>766</StateNumber>
       <StoredType>real|0s</StoredType>
       <TypeId>700</TypeId>
     </column>
-    <index id="283" parent="272" name="estadia_pkey">
+    <index id="282" parent="272" name="estadia_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16428</ObjectId>
@@ -4375,37 +4362,36 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="284" parent="272" name="estadia_pkey">
+    <key id="283" parent="272" name="estadia_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16429</ObjectId>
       <Primary>1</Primary>
       <StateNumber>766</StateNumber>
       <UnderlyingIndexId>16428</UnderlyingIndexId>
     </key>
-    <column id="285" parent="273" name="id">
+    <column id="284" parent="273" name="id">
       <DefaultExpression>nextval(&apos;habitacion_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>782</StateNumber>
       <StoredType>integer|0s</StoredType>
-      <SequenceId>16459</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="286" parent="273" name="nro_habitacion">
+    <column id="285" parent="273" name="nro_habitacion">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(10)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="287" parent="273" name="tipo_id">
+    <column id="286" parent="273" name="tipo_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>782</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="288" parent="273" name="habitacion_tipo_id_fkey">
+    <foreign-key id="287" parent="273" name="habitacion_tipo_id_fkey">
       <ColNames>tipo_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16468</ObjectId>
@@ -4413,7 +4399,7 @@ false Zulu
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16451</RefTableId>
     </foreign-key>
-    <index id="289" parent="273" name="habitacion_pkey">
+    <index id="288" parent="273" name="habitacion_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16464</ObjectId>
@@ -4422,7 +4408,7 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="290" parent="273" name="habitacion_nro_habitacion_key">
+    <index id="289" parent="273" name="habitacion_nro_habitacion_key">
       <ColNames>nro_habitacion</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16466</ObjectId>
@@ -4433,91 +4419,90 @@ false Zulu
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="291" parent="273" name="habitacion_pkey">
+    <key id="290" parent="273" name="habitacion_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16465</ObjectId>
       <Primary>1</Primary>
       <StateNumber>782</StateNumber>
       <UnderlyingIndexId>16464</UnderlyingIndexId>
     </key>
-    <key id="292" parent="273" name="habitacion_nro_habitacion_key">
+    <key id="291" parent="273" name="habitacion_nro_habitacion_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16467</ObjectId>
       <StateNumber>782</StateNumber>
       <UnderlyingIndexId>16466</UnderlyingIndexId>
     </key>
-    <column id="293" parent="274" name="id">
+    <column id="292" parent="274" name="id">
       <DefaultExpression>nextval(&apos;persona_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>782</StateNumber>
       <StoredType>integer|0s</StoredType>
-      <SequenceId>16439</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="294" parent="274" name="tipo_documento">
+    <column id="293" parent="274" name="tipo_documento">
       <Position>2</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(20)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="295" parent="274" name="nro_documento">
+    <column id="294" parent="274" name="nro_documento">
       <Position>3</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(8)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="296" parent="274" name="nombre">
+    <column id="295" parent="274" name="nombre">
       <Position>4</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(150)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="297" parent="274" name="apellido">
+    <column id="296" parent="274" name="apellido">
       <Position>5</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(150)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="298" parent="274" name="fecha_nacimiento">
+    <column id="297" parent="274" name="fecha_nacimiento">
       <Position>6</Position>
       <StateNumber>782</StateNumber>
       <StoredType>date|0s</StoredType>
       <TypeId>1082</TypeId>
     </column>
-    <column id="299" parent="274" name="email">
+    <column id="298" parent="274" name="email">
       <Position>7</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="300" parent="274" name="telefono">
+    <column id="299" parent="274" name="telefono">
       <Position>8</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(25)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="301" parent="274" name="nombre_usuario">
+    <column id="300" parent="274" name="nombre_usuario">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(80)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="302" parent="274" name="contrasena">
+    <column id="301" parent="274" name="contrasena">
       <NotNull>1</NotNull>
       <Position>10</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="303" parent="274" name="tipo_persona">
+    <column id="302" parent="274" name="tipo_persona">
       <Position>11</Position>
       <StateNumber>782</StateNumber>
       <StoredType>varchar(40)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="304" parent="274" name="persona_pkey">
+    <index id="303" parent="274" name="persona_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16446</ObjectId>
@@ -4526,7 +4511,7 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="305" parent="274" name="persona_nombre_usuario_key">
+    <index id="304" parent="274" name="persona_nombre_usuario_key">
       <ColNames>nombre_usuario</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16448</ObjectId>
@@ -4537,41 +4522,40 @@ false Zulu
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="306" parent="274" name="persona_pkey">
+    <key id="305" parent="274" name="persona_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16447</ObjectId>
       <Primary>1</Primary>
       <StateNumber>782</StateNumber>
       <UnderlyingIndexId>16446</UnderlyingIndexId>
     </key>
-    <key id="307" parent="274" name="persona_nombre_usuario_key">
+    <key id="306" parent="274" name="persona_nombre_usuario_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16449</ObjectId>
       <StateNumber>782</StateNumber>
       <UnderlyingIndexId>16448</UnderlyingIndexId>
     </key>
-    <column id="308" parent="275" name="id">
+    <column id="307" parent="275" name="id">
       <DefaultExpression>nextval(&apos;servicio_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>760</StateNumber>
       <StoredType>integer|0s</StoredType>
-      <SequenceId>16404</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="309" parent="275" name="descripcion">
+    <column id="308" parent="275" name="descripcion">
       <Position>2</Position>
       <StateNumber>760</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="310" parent="275" name="precio">
+    <column id="309" parent="275" name="precio">
       <Position>3</Position>
       <StateNumber>760</StateNumber>
       <StoredType>real|0s</StoredType>
       <TypeId>700</TypeId>
     </column>
-    <index id="311" parent="275" name="servicio_pkey">
+    <index id="310" parent="275" name="servicio_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16409</ObjectId>
@@ -4580,126 +4564,71 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="312" parent="275" name="servicio_pkey">
+    <key id="311" parent="275" name="servicio_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16410</ObjectId>
       <Primary>1</Primary>
       <StateNumber>760</StateNumber>
       <UnderlyingIndexId>16409</UnderlyingIndexId>
     </key>
-    <column id="313" parent="276" name="id">
+    <column id="312" parent="276" name="id">
       <DefaultExpression>nextval(&apos;tipo_habitacion_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>782</StateNumber>
+      <StateNumber>801</StateNumber>
       <StoredType>integer|0s</StoredType>
-      <SequenceId>16450</SequenceId>
+      <SequenceId>16513</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="314" parent="276" name="denominacion">
+    <column id="313" parent="276" name="denominacion">
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>782</StateNumber>
+      <StateNumber>801</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="315" parent="276" name="descripcion">
+    <column id="314" parent="276" name="descripcion">
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>782</StateNumber>
+      <StateNumber>801</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="316" parent="276" name="foto">
-      <Position>4</Position>
-      <StateNumber>782</StateNumber>
-      <StoredType>varchar(255)|0s</StoredType>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="317" parent="276" name="capacidad_personas">
+    <column id="315" parent="276" name="capacidad_personas">
       <NotNull>1</NotNull>
-      <Position>5</Position>
-      <StateNumber>782</StateNumber>
+      <Position>4</Position>
+      <StateNumber>801</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <column id="318" parent="276" name="precio_por_dia">
+    <column id="316" parent="276" name="precio_por_noche">
       <NotNull>1</NotNull>
-      <Position>6</Position>
-      <StateNumber>782</StateNumber>
+      <Position>5</Position>
+      <StateNumber>801</StateNumber>
       <StoredType>double precision|0s</StoredType>
       <TypeId>701</TypeId>
     </column>
-    <index id="319" parent="276" name="tipo_habitacion_pkey">
-      <ColNames>id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16457</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>782</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="320" parent="276" name="tipo_habitacion_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16458</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>782</StateNumber>
-      <UnderlyingIndexId>16457</UnderlyingIndexId>
-    </key>
-    <column id="321" parent="277" name="id">
-      <DefaultExpression>nextval(&apos;tipohabitacion_id_seq&apos;::regclass)</DefaultExpression>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>764</StateNumber>
-      <StoredType>integer|0s</StoredType>
-      <SequenceId>16414</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="322" parent="277" name="denominacion">
-      <Position>2</Position>
-      <StateNumber>764</StateNumber>
-      <StoredType>varchar(255)|0s</StoredType>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="323" parent="277" name="descripcion">
-      <Position>3</Position>
-      <StateNumber>764</StateNumber>
-      <StoredType>varchar(255)|0s</StoredType>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="324" parent="277" name="foto">
-      <Position>4</Position>
-      <StateNumber>764</StateNumber>
-      <StoredType>bytea|0s</StoredType>
-      <TypeId>17</TypeId>
-    </column>
-    <column id="325" parent="277" name="capacidad_personas">
-      <Position>5</Position>
-      <StateNumber>764</StateNumber>
-      <StoredType>integer|0s</StoredType>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="326" parent="277" name="precio_por_dia">
+    <column id="317" parent="276" name="nombre_imagen">
       <Position>6</Position>
-      <StateNumber>764</StateNumber>
-      <StoredType>real|0s</StoredType>
-      <TypeId>700</TypeId>
+      <StateNumber>801</StateNumber>
+      <StoredType>varchar(100)|0s</StoredType>
+      <TypeId>1043</TypeId>
     </column>
-    <index id="327" parent="277" name="tipohabitacion_pkey">
+    <index id="318" parent="276" name="tipo_habitacion_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16421</ObjectId>
+      <ObjectId>16518</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>764</StateNumber>
+      <StateNumber>801</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="328" parent="277" name="tipohabitacion_pkey">
+    <key id="319" parent="276" name="tipo_habitacion_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16422</ObjectId>
+      <ObjectId>16519</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>764</StateNumber>
-      <UnderlyingIndexId>16421</UnderlyingIndexId>
+      <StateNumber>801</StateNumber>
+      <UnderlyingIndexId>16518</UnderlyingIndexId>
     </key>
   </database-model>
 </dataSource>

@@ -5,30 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/formularios_edicion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/cambiar_contrasena.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/editar_datos_personales.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TP_SGDPV.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TP_SGDPV.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/konigari.MHeeHA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/konigari.MHeeHA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/konigari.MHeeHA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/konigari.MHeeHA/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4e99af8-58e8-4d76-bb69-ed1c39d1f8e8/storage_v2/_src_/database/postgres.edMnLQ/schema/schema_hotel.lt06tA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/tipo_habitacion_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_persona.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_persona.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/editar_persona.html" beforeDir="false" afterPath="$PROJECT_DIR$/db_pruebas/reset_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/read_datos_persona.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/read_datos_persona.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/tipo_habitacion_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/tipo_habitacion_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +110,7 @@
       <updated>1763775473919</updated>
       <workItem from="1763775477811" duration="6000" />
       <workItem from="1763775505287" duration="6815000" />
-      <workItem from="1763822614706" duration="779000" />
+      <workItem from="1763822614706" duration="4993000" />
     </task>
     <servers />
   </component>

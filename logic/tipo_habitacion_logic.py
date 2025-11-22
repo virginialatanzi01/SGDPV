@@ -1,25 +1,27 @@
 from data.data_tipo_habitacion import DataTipoHabitacion
+from entity_models.tipo_habitacion_model import TipoHabitacion
+from data.database import Database
 
 class TipoHabitacionLogic:
     @classmethod
     def get_all_tipos(cls):
-        tipos = DataTipoHabitacion.get_all_tipos()
-        return tipos
+        return DataTipoHabitacion.get_all_tipos()
 
     @classmethod
     def get_one_tipo(cls, id):
-        tipo = DataTipoHabitacion.get_one_tipo(id)
-        return tipo
+        return DataTipoHabitacion.get_one_tipo(id)
 
     @classmethod
-    def get_tipo_by_desc(cls, descripcion):
-        tipo = DataTipoHabitacion.get_tipo_by_desc(descripcion)
-        return tipo
-
-    @classmethod
-    def add_tipo(cls, tipo):
-        DataTipoHabitacion.add_tipo(tipo)
-
-    @classmethod
-    def delete_tipo(cls, id):
-        DataTipoHabitacion.delete_tipo(id)
+    def add_tipo_habitacion(cls, denominacion, descripcion, capacidad_personas, precio_por_noche, nombre_imagen):
+        # Creamos la instancia del objeto
+        nuevo_tipo = TipoHabitacion(
+            denominacion=denominacion,
+            descripcion=descripcion,
+            capacidad_personas=capacidad_personas,
+            precio_por_noche=precio_por_noche,
+            nombre_imagen=nombre_imagen
+        )
+        # Lo guardamos usando la capa de datos o directamente aquí si es simple
+        Database.db.session.add(nuevo_tipo)
+        Database.db.session.commit()
+        return nuevo_tipo

@@ -12,6 +12,7 @@ from data.database import Database
 from entity_models.persona_model import Persona
 from entity_models.registro_cliente_form import RegistroClienteForm
 from entity_models.registro_form import RegistroForm
+from entity_models.formularios_edicion import EditarDatosForm, CambiarContrasenaForm
 from logic.persona_logic import PersonaLogic
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = Database.configura_conexion()
@@ -228,7 +229,56 @@ def add_persona():
                 return render_template('alta_persona.html',
                                        persona_agregar=registro_cliente_form,
                                        persona_logueada=persona_logueada)
+@app.route('/editar_datos_personales', methods=['GET', 'POST'])
+def editar_datos_personales():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    persona_db = PersonaLogic.get_one_persona(persona_logueada.id)
+    form = EditarDatosForm(obj=persona_db)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            form.populate_obj(persona_db)
+            try:
+                PersonaLogic.update_persona(persona_db, contrasena=None)
+                session['persona_logueada'] = persona_db.to_dict()
+                return render_template('mensaje.html',
+                                       mensaje='Datos personales actualizados correctamente',
+                                       url_volver=url_for('read_datos_persona', id=persona_db.id),
+                                       texto_boton='Volver a Mi Cuenta',
+                                       persona_logueada=persona_db)
+            except Exception as e:
+                app.logger.error(f"Error al actualizar: {e}")
+                return render_template('mensaje.html', mensaje='Error al actualizar los datos')
+        else:
+            print("Errores validación:", form.errors)
+    return render_template('editar_datos_personales.html',
+                           form=form,
+                           persona_logueada=persona_logueada)
+@app.route('/cambiar_contrasena', methods=['GET', 'POST'])
+def cambiar_contrasena():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    persona_db = PersonaLogic.get_one_persona(persona_logueada.id)
+    form = CambiarContrasenaForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            try:
+                nueva_pass = form.nueva_contrasena.data
+                PersonaLogic.update_persona(persona_db, contrasena=nueva_pass)
 
+                return render_template('mensaje.html',
+                                       mensaje='Contraseña actualizada con éxito',
+                                       url_volver=url_for('read_datos_persona', id=persona_db.id),
+                                       texto_boton='Volver a Mi Cuenta',
+                                       persona_logueada=persona_logueada)
+            except Exception as e:
+                app.logger.error(f"Error pass: {e}")
+                return render_template('mensaje.html', mensaje='Error al cambiar contraseña')
+    return render_template('cambiar_contrasena.html',
+                           form=form,
+                           persona_logueada=persona_logueada)
 @app.route('/validar_nombre_usuario', methods=['POST'])
 def validar_nombre_usuario():
     nombre_usuario = request.form.get('nombre_usuario')
@@ -237,8 +287,6 @@ def validar_nombre_usuario():
     else:
         existe = False
     return jsonify({'existe': existe})
-
-
 @app.route('/read_datos_persona/<int:id>', methods=['GET'])
 def read_datos_persona(id):
     persona_logueada = obtener_persona_logueada()

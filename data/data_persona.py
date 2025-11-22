@@ -99,7 +99,9 @@ class DataPersona:
     @classmethod
     def update_persona(cls, persona, contrasena):
         try:
-            persona.establece_contrasena(contrasena)
+            if contrasena:
+                persona.establece_contrasena(contrasena)
+            Database.db.session.add(persona)
             Database.db.session.commit()
         except IntegrityError as e:
             raise e

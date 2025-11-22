@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Datos Personales - VL Alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .register-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 100px;
+            margin-bottom: 50px;
+            width: 60%;
+            max-width: 800px;
+        }
+        .section-title {
+            color: #D0963E;
+            font-weight: bold;
+            border-bottom: 2px solid #D0963E;
+            margin-bottom: 20px;
+        }
+        .btn-success {
+            background-color: #D0963E;
+            border-color: #D0963E;
+        }
+        .btn-success:hover {
+            background-color: #b88432;
+            border-color: #b88432;
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: black; height: 60px; width: 100%; position: fixed; top: 0; z-index: 1000; display: flex; align-items: center; padding-left: 20px;">
+        <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo" style="height: 50px;">
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="register-card">
+            <h2 class="text-center mb-4">Editar mis datos personales</h2>
+
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                {% for field, errors in form.errors.items() %}
+                    {% for error in errors %}
+                        <li>{{ form[field].label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <h4 class="section-title">Información Personal</h4>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        {{ form.tipo_documento.label(class="form-label") }}
+                        {{ form.tipo_documento(class="form-select") }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.nro_documento.label(class="form-label") }}
+                        {{ form.nro_documento(class="form-control") }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        {{ form.nombre.label(class="form-label") }}
+                        {{ form.nombre(class="form-control") }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.apellido.label(class="form-label") }}
+                        {{ form.apellido(class="form-control") }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        {{ form.fecha_nacimiento.label(class="form-label") }}
+                        <input type="text"
+                               name="fecha_nacimiento"
+                               class="form-control"
+                               placeholder="DD-MM-AAAA"
+                               value="{{ form.fecha_nacimiento.data.strftime('%d-%m-%Y') if form.fecha_nacimiento.data else '' }}"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.telefono.label(class="form-label") }}
+                        {{ form.telefono(class="form-control") }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                    </div>
+                </div>
+
+                <h4 class="section-title mt-4">Datos de Usuario</h4>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        {{ form.nombre_usuario.label(class="form-label") }}
+                        {{ form.nombre_usuario(class="form-control", readonly=True, style="background-color: #e9ecef;") }}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end border-top pt-3">
+                    {{ form.guardar(class="btn btn-success me-2", onclick="return confirm('¿Confirmar cambios?');") }}
+                    <a href="{{ url_for('read_datos_persona', id=persona_logueada.id) }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

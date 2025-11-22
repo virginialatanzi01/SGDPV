@@ -108,6 +108,19 @@
     <div class="d-flex justify-content-center align-items-center">
         <div class="register-card">
             <h1>Crear una cuenta</h1>
+
+            {% if persona_agregar.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                    {% for field, errors in persona_agregar.errors.items() %}
+                        {% for error in errors %}
+                            <li>{{ persona_agregar[field].label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             <form method="POST">
                 {{ persona_agregar.csrf_token }}
 
@@ -145,7 +158,11 @@
                     <div class="col-md-4">
                         <p>
                             {{ persona_agregar.fecha_nacimiento.label }} <br/>
-                            <input type="text" name="fecha_nacimiento" class="form-control form-control-lg" placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" required>
+                            <input type="text" name="fecha_nacimiento"
+                                   class="form-control form-control-lg"
+                                   placeholder="DD-MM-AAAA"
+                                   value="{{ persona_agregar.fecha_nacimiento.data.strftime('%d-%m-%Y') if persona_agregar.fecha_nacimiento.data else '' }}"
+                                   pattern="\d{2}-\d{2}-\d{4}" required>
                         </p>
                     </div>
                 </div>
@@ -169,12 +186,14 @@
                 <p class="section-title">Datos de la cuenta</p>
 
                 <div class="row mb-4">
+                    {% if persona_agregar.tipo_persona %}
                     <div class="col-md-6">
                         <p>
                             {{ persona_agregar.tipo_persona.label }} <br/>
                             {{ persona_agregar.tipo_persona(class="form-control form-control-lg") }}
                         </p>
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="row mb-4">

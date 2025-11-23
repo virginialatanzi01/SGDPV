@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados - VL Alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding-top: 80px; /* Espacio para la barra superior */
+            padding-bottom: 40px;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .room-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .room-info {
+            flex: 1;
+            padding-right: 20px;
+        }
+        .room-title {
+            font-family: 'Cambria Math', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #D0963E;
+            margin-bottom: 10px;
+        }
+        .room-desc {
+            font-family: 'Arial', serif;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .room-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+        .total-price {
+            font-size: 14px;
+            color: #666;
+        }
+        .room-img {
+            width: 250px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .btn-reservar {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .btn-reservar:hover {
+            background-color: #333;
+            color: white;
+        }
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .btn-volver {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo" style="height: 50px;">
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 style="color: white; text-shadow: 2px 2px 4px #000;">Alojamientos Disponibles</h2>
+            <a href="{{ url_for('reservar_alojamiento') }}" class="btn btn-volver">Nueva Búsqueda</a>
+        </div>
+
+        {% if resultados %}
+            {% for tipo in resultados %}
+            <div class="room-card">
+                <div class="room-info">
+                    <div class="room-title">{{ tipo.denominacion }}</div>
+                    <div class="room-desc">{{ tipo.descripcion }}</div>
+                    <div class="room-desc">Capacidad: {{ tipo.capacidad_personas }} personas</div>
+
+                    <div class="room-price">Precio total: ${{ "{:.2f}".format(tipo.precio_por_noche * cantidad_noches) }}</div>
+                    <div class="total-price">(${{ tipo.precio_por_noche }} x {{ cantidad_noches }} noches)</div>
+
+                    <button class="btn btn-reservar">RESERVAR</button>
+                </div>
+                <div>
+                    {% if tipo.nombre_imagen %}
+                        <img src="{{ url_for('static', filename='imagenes_tipos_habitaciones/' + tipo.nombre_imagen) }}" class="room-img" alt="{{ tipo.denominacion }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/250x180?text=Sin+Imagen" class="room-img" alt="Sin imagen">
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-warning text-center">
+                No se encontraron alojamientos disponibles para la capacidad solicitada.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

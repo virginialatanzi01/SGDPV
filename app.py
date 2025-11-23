@@ -14,6 +14,11 @@ from entity_models.persona_model import Persona
 from entity_models.registro_cliente_form import RegistroClienteForm
 from entity_models.registro_form import RegistroForm
 from entity_models.formularios_edicion import EditarDatosForm, CambiarContrasenaForm
+from entity_models.reserva_form import BusquedaReservaForm
+from entity_models.tipo_habitacion_model import TipoHabitacion
+from entity_models.habitacion_model import Habitacion
+from logic.tipo_habitacion_logic import TipoHabitacionLogic
+from logic.persona_logic import PersonaLogic
 from logic.persona_logic import PersonaLogic
 app = Flask(__name__)
 
@@ -285,7 +290,6 @@ def validar_nombre_usuario():
         existe = False
     return jsonify({'existe': existe})
 
-
 @app.route('/read_datos_persona/<int:id>', methods=['GET'])
 def read_datos_persona(id):
     persona_logueada = obtener_persona_logueada()
@@ -296,18 +300,52 @@ def read_datos_persona(id):
     if persona_logueada.fecha_nacimiento:
         fecha_str = str(persona_logueada.fecha_nacimiento)
         try:
-            # Caso 1: Si viene con formato GMT (ej: "Mon, 01 Jan 1990...")
             if "GMT" in fecha_str:
                 fecha_obj = datetime.strptime(fecha_str, '%a, %d %b %Y %H:%M:%S %Z')
                 persona_logueada.fecha_nacimiento = fecha_obj.strftime('%d-%m-%Y')
-            # Caso 2: Si es un objeto 'date' de Python (recién salido de la BD)
             elif hasattr(persona_logueada.fecha_nacimiento, 'strftime'):
                 persona_logueada.fecha_nacimiento = persona_logueada.fecha_nacimiento.strftime('%d-%m-%Y')
-            # Caso 3: Si ya es texto simple, lo dejamos como está
         except ValueError:
             pass
     return render_template('read_datos_persona.html', persona=persona_logueada, persona_logueada=persona_logueada)
 
+
+@app.route('/reservar_alojamiento', methods=['GET', 'POST'])
+def reservar_alojamiento():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'cliente':
+        return redirect(url_for('login'))
+    form = BusquedaReservaForm()
+    fecha_hoy = date.today().strftime('%Y-%m-%d')
+    if request.method == 'POST' and form.validate_on_submit():
+        fecha_desde = form.fecha_desde.data
+        fecha_hasta = form.fecha_hasta.data
+        cant_personas = form.cantidad_personas.data
+        if fecha_desde < date.today():
+            return render_template('reservar_alojamiento.html',
+                                   form=form,
+                                   persona_logueada=persona_logueada,
+                                   hoy=fecha_hoy,
+                                   error="La fecha de ingreso no puede ser en el pasado.")
+        if fecha_hasta <= fecha_desde:
+            return render_template('reservar_alojamiento.html',
+                                   form=form,
+                                   persona_logueada=persona_logueada,
+                                   hoy=fecha_hoy,
+                                   error="La fecha de salida debe ser posterior a la de ingreso.")
+        delta = fecha_hasta - fecha_desde
+        cantidad_noches = delta.days
+        resultados = TipoHabitacionLogic.buscar_tipos_disponibles(fecha_desde, fecha_hasta, cant_personas)
+        return render_template('resultados_busqueda.html',
+                               persona_logueada=persona_logueada,
+                               resultados=resultados,
+                               cantidad_noches=cantidad_noches,
+                               fecha_desde=fecha_desde,
+                               fecha_hasta=fecha_hasta)
+    return render_template('reservar_alojamiento.html',
+                           form=form,
+                           persona_logueada=persona_logueada,
+                           hoy=fecha_hoy)
 
 if __name__ == '__main__':
     app.run(debug=True)

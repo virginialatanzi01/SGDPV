@@ -21,7 +21,13 @@ class TipoHabitacionLogic:
             precio_por_noche=precio_por_noche,
             nombre_imagen=nombre_imagen
         )
-        # Lo guardamos usando la capa de datos o directamente aquí si es simple
         Database.db.session.add(nuevo_tipo)
         Database.db.session.commit()
         return nuevo_tipo
+
+    @classmethod
+    @classmethod
+    def buscar_tipos_disponibles(cls, fecha_desde, fecha_hasta, cantidad_personas):
+        # En el futuro, cruzo con  tabla 'estadia' para ver disponibilidad real por fechas.
+        # Por ahora, filtramos solo por capacidad según el requerimiento actual.
+        return DataTipoHabitacion.get_tipos_by_capacidad(cantidad_personas)

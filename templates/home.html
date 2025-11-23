@@ -169,7 +169,7 @@
         <br>
         <div class="buttons-container">
             {% if persona_logueada.tipo_persona == 'cliente' %}
-                <button class="button button-reservar">Reservar alojamiento</button>
+                <a href="{{ url_for('reservar_alojamiento') }}" class="button button-reservar">Reservar alojamiento</a>
                 <button class="button button-mis-reservas">Mis reservas</button>
                 <a href="{{ url_for('read_datos_persona', id=persona_logueada.id) }}" class="button button-mi-cuenta">Mi cuenta</a>
             {% elif persona_logueada.tipo_persona == 'administrador' %}

@@ -352,6 +352,7 @@ def previsualizar_reserva():
     fecha_hasta = request.form['fecha_hasta']
     precio_total = request.form['precio_total']
     cantidad_noches = request.form['cantidad_noches']
+    cantidad_personas = request.form['cantidad_personas']
     tipo_habitacion = TipoHabitacionLogic.get_one_tipo(tipo_id)
     return render_template('resumen_reserva.html',
                            persona=persona_logueada,
@@ -359,7 +360,8 @@ def previsualizar_reserva():
                            fecha_desde=fecha_desde,
                            fecha_hasta=fecha_hasta,
                            precio_total=precio_total,
-                           cantidad_noches=cantidad_noches)
+                           cantidad_noches=cantidad_noches,
+                           cantidad_personas = cantidad_personas)
 
 @app.route('/confirmar_reserva', methods=['POST'])
 def confirmar_reserva():
@@ -370,13 +372,15 @@ def confirmar_reserva():
     fecha_desde = datetime.strptime(request.form['fecha_desde'], '%Y-%m-%d').date()
     fecha_hasta = datetime.strptime(request.form['fecha_hasta'], '%Y-%m-%d').date()
     precio_total = float(request.form['precio_total'])
+    cantidad_personas = int(request.form['cantidad_personas'])
     try:
         reserva = EstadiaLogic.crear_reserva(
             persona_id=persona_logueada.id,
             tipo_id=tipo_id,
             f_ingreso=fecha_desde,
             f_egreso=fecha_hasta,
-            precio_total=precio_total
+            precio_total=precio_total,
+            cantidad_personas=cantidad_personas
         )
         tipo_habitacion = TipoHabitacionLogic.get_one_tipo(tipo_id)
 
@@ -431,9 +435,10 @@ def modificar_reserva(id):
     if request.method == 'GET':
         form.fecha_desde.data = reserva.fecha_ingreso
         form.fecha_hasta.data = reserva.fecha_egreso
-        form.cantidad_personas.data = 1
+        form.cantidad_personas.data = reserva.cantidad_personas
     fecha_hoy = date.today().strftime('%Y-%m-%d')
     if request.method == 'POST' and form.validate_on_submit():
+        nueva_cantidad_personas = form.cantidad_personas.data
         # 1. Validar Personas vs Capacidad Habitación
         if form.cantidad_personas.data > reserva.tipo_habitacion.capacidad_personas:
             error_msg = f"Esta habitación ({reserva.tipo_habitacion.denominacion}) solo permite hasta {reserva.tipo_habitacion.capacidad_personas} personas. Para más personas, cancele y reserve otra."
@@ -449,7 +454,7 @@ def modificar_reserva(id):
             return render_template('modificar_reserva.html', form=form, reserva=reserva, hoy=fecha_hoy,
                                    error="La salida debe ser posterior al ingreso.", persona_logueada=persona_logueada)
         # 3. Intentar Modificar (Lógica valida disponibilidad)
-        exito, mensaje = EstadiaLogic.modificar_reserva(id, f_desde, f_hasta)
+        exito, mensaje = EstadiaLogic.modificar_reserva(id, f_desde, f_hasta, nueva_cantidad_personas)
         if exito:
             return render_template('mensaje.html',
                                    mensaje="Reserva modificada exitosamente",

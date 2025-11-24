@@ -5,14 +5,15 @@ from entity_models.estadia_model import Estadia
 
 class EstadiaLogic:
     @classmethod
-    def crear_reserva(cls, persona_id, tipo_id, f_ingreso, f_egreso, precio_total):
+    def crear_reserva(cls, persona_id, tipo_id, f_ingreso, f_egreso, precio_total, cantidad_personas):
         nueva_reserva = Estadia(
             persona_id=persona_id,
             tipo_habitacion_id=tipo_id,
             fecha_ingreso=f_ingreso,
             fecha_egreso=f_egreso,
             precio_total=precio_total,
-            estado='Reservada'
+            estado='Reservada',
+            cantidad_personas=cantidad_personas  # Guarda el valor
         )
         DataEstadia.add_estadia(nueva_reserva)
         return nueva_reserva
@@ -46,7 +47,7 @@ class EstadiaLogic:
         return False
 
     @classmethod
-    def modificar_reserva(cls, id, nueva_f_ingreso, nueva_f_egreso):
+    def modificar_reserva(cls, id, nueva_f_ingreso, nueva_f_egreso, nueva_cantidad_personas):
         reserva = DataEstadia.get_estadia_by_id(id)
         disponibles = DataEstadia.get_disponibilidad(
             reserva.tipo_habitacion_id,
@@ -62,6 +63,7 @@ class EstadiaLogic:
             reserva.fecha_ingreso = nueva_f_ingreso
             reserva.fecha_egreso = nueva_f_egreso
             reserva.precio_total = nuevo_total
+            reserva.cantidad_personas = nueva_cantidad_personas
             DataEstadia.update_estadia()
             return True, "Reserva modificada correctamente"
         else:

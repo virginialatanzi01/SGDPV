@@ -34,11 +34,11 @@
             margin-bottom: 20px;
             box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
             position: relative;
-            border-left: 5px solid #D0963E; /* Borde dorado para activas */
+            border-left: 5px solid #D0963E;
         }
 
         .reserva-card.historica {
-            border-left: 5px solid #666; /* Borde gris para históricas */
+            border-left: 5px solid #666;
             opacity: 0.9;
         }
 
@@ -66,6 +66,21 @@
 
         .info-item { margin-bottom: 5px; font-size: 0.95em; }
         .info-label { font-weight: bold; color: #555; }
+
+        /* Estilo para precio y centavos */
+        .reserva-price {
+            font-weight: bold;
+            color: black;
+            display: inline-flex;
+            align-items: center;
+            font-size: 1.1em;
+        }
+        .cents {
+            font-size: 0.7em;
+            position: relative;
+            top: -0.5em; /* Superíndice */
+            margin-left: 2px;
+        }
 
         .reserva-actions {
             margin-top: 15px;
@@ -115,9 +130,18 @@
                 <div class="reserva-body">
                     <img src="{{ url_for('static', filename='imagenes_tipos_habitaciones/' + r.tipo_habitacion.nombre_imagen) }}" class="reserva-img">
                     <div>
+                        <div class="info-item"><span class="info-label">Personas:</span> {{ r.cantidad_personas }}</div>
                         <div class="info-item"><span class="info-label">Desde:</span> {{ r.fecha_ingreso.strftime('%d/%m/%Y') }}</div>
                         <div class="info-item"><span class="info-label">Hasta:</span> {{ r.fecha_egreso.strftime('%d/%m/%Y') }}</div>
-                        <div class="info-item"><span class="info-label">Total:</span> ${{ "{:.2f}".format(r.precio_total) }}</div>
+
+                        {% set precio_total_str = "{:.2f}".format(r.precio_total) %}
+                        {% set partes = precio_total_str.split('.') %}
+                        <div class="info-item">
+                            <span class="info-label">Total:</span>
+                            <span class="reserva-price">
+                                ${{ partes[0] }}<sup class="cents">{{ partes[1] }}</sup>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -146,8 +170,21 @@
 
                 <div class="reserva-body">
                     <div>
-                        <div class="info-item"><span class="info-label">Fechas:</span> {{ r.fecha_ingreso.strftime('%d/%m') }} - {{ r.fecha_egreso.strftime('%d/%m/%Y') }}</div>
-                        <div class="info-item"><span class="info-label">Total:</span> ${{ "{:.2f}".format(r.precio_total) }}</div>
+                        <div class="info-item"><span class="info-label">Personas:</span> {{ r.cantidad_personas }}</div>
+
+                        <div class="info-item">
+                            <span class="info-label">Fechas:</span>
+                            {{ r.fecha_ingreso.strftime('%d/%m/%Y') }} - {{ r.fecha_egreso.strftime('%d/%m/%Y') }}
+                        </div>
+
+                        {% set precio_total_str = "{:.2f}".format(r.precio_total) %}
+                        {% set partes = precio_total_str.split('.') %}
+                        <div class="info-item">
+                            <span class="info-label">Total:</span>
+                            <span class="reserva-price">
+                                ${{ partes[0] }}<sup class="cents">{{ partes[1] }}</sup>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

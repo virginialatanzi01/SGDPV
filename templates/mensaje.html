@@ -9,7 +9,8 @@
     body {
             margin: 0;
             padding: 0;
-            background-image: url('static/hotel_fondo.jpeg'); /* Cambiar ruta dinámica a estática */
+            /* CORRECCIÓN: Usar url_for para asegurar la ruta absoluta del fondo */
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -32,7 +33,7 @@
 <body >
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-           <a class="navbar-brand" href="#" style="color: #fff; padding: 15px;font-weight: bold;">VL Alojamientos</a>
+           <a class="navbar-brand" href="{{url_for('home')}}" style="color: #fff; padding: 15px;font-weight: bold;">VL Alojamientos</a>
            <ul class="nav justify-content-end">
            <a style= "color: #fff;padding: 20px;" class="icon-link icon-link-hover" href="{{url_for('home')}}">Home
              <i class="bi bi-house-door"></i></a>
@@ -48,7 +49,9 @@
          <div class="card" style="background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con 0.9 de opacidad */">
            <div class="card-body">
                 <h1>{{ mensaje }}</h1>
-                <a class="btn btn-dark btn-lg btn-block" href="{{url_for('home')}}">Volver al inicio</a>
+                <a class="btn btn-dark btn-lg btn-block" href="{{url_for('home') if not url_volver else url_volver}}">
+                    {{ 'Volver al inicio' if not texto_boton else texto_boton }}
+                </a>
            </div>
          </div>
        </div>

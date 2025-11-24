@@ -9,6 +9,7 @@ class Estadia(db.Model):
     fecha_egreso = db.Column(db.Date, nullable=False)
     estado = db.Column(db.String(50), nullable=False)  # 'Reservada', 'En curso', 'Finalizada', 'Cancelada'
     precio_total = db.Column(db.Float, nullable=False)
+    cantidad_personas = db.Column(db.Integer, nullable=False)
 
     persona_id = db.Column(db.Integer, db.ForeignKey('persona.id'), nullable=False)
     tipo_habitacion_id = db.Column(db.Integer, db.ForeignKey('tipo_habitacion.id'), nullable=False)

@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/data/data_tipo_habitacion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_alojamientos.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/habitacion_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/reserva_form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/tipo_habitacion_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/reservar_alojamiento.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/resultados_busqueda.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/data_estadia.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/estadia_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/estadia_logic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/comprobante_reserva.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/resumen_reserva.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_tipo_habitacion.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_tipo_habitacion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/reserva_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/reserva_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/resultados_busqueda.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/resultados_busqueda.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +116,7 @@
       <updated>1763775473919</updated>
       <workItem from="1763775477811" duration="6000" />
       <workItem from="1763775505287" duration="6815000" />
-      <workItem from="1763822614706" duration="15339000" />
+      <workItem from="1763822614706" duration="19822000" />
     </task>
     <servers />
   </component>

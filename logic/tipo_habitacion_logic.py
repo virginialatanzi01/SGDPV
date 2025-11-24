@@ -1,6 +1,7 @@
 from data.data_tipo_habitacion import DataTipoHabitacion
-from entity_models.tipo_habitacion_model import TipoHabitacion
+from data.data_estadia import DataEstadia
 from data.database import Database
+from entity_models.tipo_habitacion_model import TipoHabitacion
 
 class TipoHabitacionLogic:
     @classmethod
@@ -26,8 +27,17 @@ class TipoHabitacionLogic:
         return nuevo_tipo
 
     @classmethod
-    @classmethod
     def buscar_tipos_disponibles(cls, fecha_desde, fecha_hasta, cantidad_personas):
         # En el futuro, cruzo con  tabla 'estadia' para ver disponibilidad real por fechas.
         # Por ahora, filtramos solo por capacidad según el requerimiento actual.
         return DataTipoHabitacion.get_tipos_by_capacidad(cantidad_personas)
+
+    @classmethod
+    def buscar_tipos_disponibles(cls, fecha_desde, fecha_hasta, cantidad_personas):
+        tipos_capacidad = DataTipoHabitacion.get_tipos_by_capacidad(cantidad_personas)
+        tipos_disponibles = []
+        for tipo in tipos_capacidad:
+            disponibles = DataEstadia.get_disponibilidad(tipo.id, fecha_desde, fecha_hasta)
+            if disponibles > 0:
+                tipos_disponibles.append(tipo)
+        return tipos_disponibles

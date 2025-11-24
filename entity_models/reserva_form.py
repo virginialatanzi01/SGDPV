@@ -11,7 +11,7 @@ class BusquedaReservaForm(FlaskForm):
     fecha_hasta = DateField('Fecha Hasta', format='%Y-%m-%d', validators=[DataRequired()])
 
     cantidad_personas = SelectField('Cantidad de Personas',
-                                    choices=[(i, str(i)) for i in range(1, 6)],
+                                    choices=[(i, str(i)) for i in range(1, 5)],
                                     coerce=int,
                                     validators=[DataRequired()])
 

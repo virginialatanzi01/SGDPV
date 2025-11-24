@@ -17,9 +17,11 @@ from entity_models.formularios_edicion import EditarDatosForm, CambiarContrasena
 from entity_models.reserva_form import BusquedaReservaForm
 from entity_models.tipo_habitacion_model import TipoHabitacion
 from entity_models.habitacion_model import Habitacion
+from entity_models.estadia_model import Estadia
 from logic.tipo_habitacion_logic import TipoHabitacionLogic
 from logic.persona_logic import PersonaLogic
 from logic.persona_logic import PersonaLogic
+from logic.estadia_logic import EstadiaLogic
 app = Flask(__name__)
 
 # Base de Datos
@@ -346,6 +348,52 @@ def reservar_alojamiento():
                            form=form,
                            persona_logueada=persona_logueada,
                            hoy=fecha_hoy)
+
+@app.route('/previsualizar_reserva', methods=['POST'])
+def previsualizar_reserva():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    tipo_id = request.form['tipo_id']
+    fecha_desde = request.form['fecha_desde']
+    fecha_hasta = request.form['fecha_hasta']
+    precio_total = request.form['precio_total']
+    cantidad_noches = request.form['cantidad_noches']
+    tipo_habitacion = TipoHabitacionLogic.get_one_tipo(tipo_id)
+    return render_template('resumen_reserva.html',
+                           persona=persona_logueada,
+                           tipo=tipo_habitacion,
+                           fecha_desde=fecha_desde,
+                           fecha_hasta=fecha_hasta,
+                           precio_total=precio_total,
+                           cantidad_noches=cantidad_noches)
+
+@app.route('/confirmar_reserva', methods=['POST'])
+def confirmar_reserva():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    tipo_id = request.form['tipo_id']
+    fecha_desde = datetime.strptime(request.form['fecha_desde'], '%Y-%m-%d').date()
+    fecha_hasta = datetime.strptime(request.form['fecha_hasta'], '%Y-%m-%d').date()
+    precio_total = float(request.form['precio_total'])
+    try:
+        reserva = EstadiaLogic.crear_reserva(
+            persona_id=persona_logueada.id,
+            tipo_id=tipo_id,
+            f_ingreso=fecha_desde,
+            f_egreso=fecha_hasta,
+            precio_total=precio_total
+        )
+        tipo_habitacion = TipoHabitacionLogic.get_one_tipo(tipo_id)
+
+        return render_template('comprobante_reserva.html',
+                               persona=persona_logueada,
+                               reserva=reserva,
+                               tipo=tipo_habitacion)
+    except Exception as e:
+        app.logger.error(f"Error al reservar: {e}")
+        return render_template('mensaje.html', mensaje="Ocurrió un error al procesar la reserva.")
 
 if __name__ == '__main__':
     app.run(debug=True)

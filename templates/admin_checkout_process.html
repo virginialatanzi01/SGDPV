@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Check-out - VL Alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding-top: 80px;
+            display: flex;
+            justify-content: center;
+        }
+        .checkout-card {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+            width: 800px; /* Más ancho para la tabla detallada */
+            height: fit-content;
+            border-top: 10px solid #dc3545;
+        }
+        .card-title {
+            color: #dc3545;
+            font-family: 'Cambria Math', serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 10px;
+        }
+
+        .header-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border-left: 5px solid #333;
+        }
+
+        /* Estilos de Tabla similares a Mis Consumos */
+        .table-consumos th { background-color: #333; color: white; }
+        .total-row { font-size: 1.3em; font-weight: bold; background-color: #fff0f1; color: #dc3545; }
+
+        .btn-confirmar {
+            background-color: #dc3545;
+            color: white;
+            width: 100%;
+            font-weight: bold;
+            padding: 12px;
+            border: none;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+        .btn-confirmar:hover { background-color: #a71d2a; color: white; }
+
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo" style="height: 50px;">
+        </a>
+    </div>
+
+    <div class="checkout-card">
+        <h3 class="card-title">
+            <i class="bi bi-cash-register"></i> Detalle de Consumos y Cierre
+        </h3>
+
+        <div class="header-info d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0">Habitación #{{ estadia.habitacion.nro_habitacion }}</h4>
+                <span class="text-muted">{{ estadia.tipo_habitacion.denominacion }}</span>
+            </div>
+            <div class="text-end">
+                <h5 class="mb-0">{{ estadia.persona.apellido }}, {{ estadia.persona.nombre }}</h5>
+                <span class="text-muted">Reserva #{{ estadia.id }}</span>
+            </div>
+        </div>
+
+        {% if estadia.consumos %}
+            <table class="table table-striped table-consumos">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Servicio</th>
+                        <th class="text-center">Cant</th>
+                        <th class="text-end">Precio Unit.</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in estadia.consumos %}
+                    <tr>
+                        <td>{{ c.fecha_consumo.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ c.servicio.descripcion }}</td>
+                        <td class="text-center">{{ c.cantidad }}</td>
+                        <td class="text-end">${{ "{:.0f}".format(c.precio_unitario_historico) }}</td>
+                        <td class="text-end">${{ "{:.0f}".format(c.cantidad * c.precio_unitario_historico) }}</td>
+                    </tr>
+                    {% endfor %}
+
+                    <tr class="total-row">
+                        <td colspan="4" class="text-end">TOTAL A COBRAR</td>
+                        <td class="text-end">${{ "{:.2f}".format(total_a_cobrar) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-success text-center py-4">
+                <h4><i class="bi bi-check-circle"></i> Sin cargos adicionales</h4>
+                <p class="mb-0">El huésped no registra consumos extra. El saldo a cobrar es $0.00.</p>
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            <button type="submit" class="btn btn-confirmar" onclick="return confirm('¿Confirma el cobro y la liberación de la habitación?');">
+                <i class="bi bi-box-arrow-right"></i> Confirmar Cobro y Salida
+            </button>
+            <a href="{{ url_for('admin_checkout_list') }}" class="btn btn-outline-secondary w-100 mt-2">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

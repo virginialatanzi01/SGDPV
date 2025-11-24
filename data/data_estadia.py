@@ -4,6 +4,7 @@ from entity_models.habitacion_model import Habitacion
 from entity_models.persona_model import Persona
 from sqlalchemy import and_
 from flask import current_app as app
+from datetime import date
 
 class DataEstadia:
     @classmethod
@@ -71,3 +72,19 @@ class DataEstadia:
             and_(Estadia.fecha_ingreso < f_egreso, Estadia.fecha_egreso > f_ingreso)
         ).all()
         return [r[0] for r in ocupadas]
+
+    @classmethod
+    def get_estadias_en_curso(cls):
+        return Estadia.query.filter_by(estado='En curso').order_by(Estadia.fecha_egreso).all()
+
+    @classmethod
+    def get_estadias_checkout_hoy(cls):
+        try:
+            hoy = date.today()
+            return Estadia.query.filter(
+                Estadia.estado == 'En curso',
+                Estadia.fecha_egreso == hoy
+            ).order_by(Estadia.habitacion_id).all()
+        except Exception as e:
+            app.logger.error(f"Error al buscar check-outs: {e}")
+            return []

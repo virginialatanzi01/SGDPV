@@ -5,29 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/data/data_habitacion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/data_servicio.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_servicios.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/busqueda_cliente_form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/consumo_form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/consumo_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/servicio_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logic/servicio_logic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_add_servicios.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_checkin_buscar.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_checkin_exitoso.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/mis_consumos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606/storage_v2/_src_/database/konigari.MHeeHA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606/storage_v2/_src_/database/konigari.MHeeHA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_checkout.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin_checkout_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin_checkout_process.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/data_estadia.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_estadia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity_models/estadia_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/estadia_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/estadia_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/estadia_logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/habitacion_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/habitacion_logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/comprobante_reserva.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comprobante_reserva.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/mis_reservas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mis_reservas.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,31 +41,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.TP_SGDPV.executor&quot;: &quot;Run&quot;,
-    &quot;Python.reset_db.executor&quot;: &quot;Run&quot;,
-    &quot;Python.seed_admin.executor&quot;: &quot;Run&quot;,
-    &quot;Python.seed_alojamientos.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/VIRGI/Desktop/TP_SGDPV/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.TP_SGDPV.executor": "Run",
+    "Python.reset_db.executor": "Run",
+    "Python.seed_admin.executor": "Run",
+    "Python.seed_alojamientos.executor": "Run",
+    "Python.seed_checkout.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/VIRGI/Desktop/TP_SGDPV/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\VIRGI\Desktop\TP_SGDPV\templates" />
@@ -131,7 +117,7 @@
       <workItem from="1763822614706" duration="19822000" />
       <workItem from="1763988521754" duration="4445000" />
       <workItem from="1763993562522" duration="5121000" />
-      <workItem from="1764006656506" duration="3628000" />
+      <workItem from="1764006656506" duration="5814000" />
     </task>
     <servers />
   </component>
@@ -139,6 +125,7 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/app_py$seed_checkout.coverage" NAME="seed_checkout Coverage Results" MODIFIED="1764013773069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
     <SUITE FILE_PATH="coverage/app_py$seed_alojamientos.coverage" NAME="seed_alojamientos Coverage Results" MODIFIED="1763912013258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
     <SUITE FILE_PATH="coverage/app_py$TP_SGDPV.coverage" NAME="TP_SGDPV Coverage Results" MODIFIED="1763776393654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/app_py$reset_db.coverage" NAME="reset_db Coverage Results" MODIFIED="1763780793576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />

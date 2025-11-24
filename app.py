@@ -579,5 +579,43 @@ def mis_consumos(estadia_id):
                            consumos=consumos,
                            total=total_consumos)
 
+
+@app.route('/admin/checkout')
+def admin_checkout_list():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return render_template('mensaje.html', mensaje='Acceso denegado')
+    from entity_models.estadia_model import Estadia
+    estadias = Estadia.query.filter_by(estado='En curso').order_by(Estadia.fecha_egreso).all()
+    hoy = date.today()
+    return render_template('admin_checkout_list.html',
+                           persona_logueada=persona_logueada,
+                           estadias=estadias,
+                           hoy=hoy)
+
+@app.route('/admin/procesar_checkout/<int:estadia_id>', methods=['GET', 'POST'])
+def admin_procesar_checkout(estadia_id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    estadia = EstadiaLogic.get_one_estadia(estadia_id)
+    total_consumos = sum(c.cantidad * c.precio_unitario_historico for c in estadia.consumos)
+    total_a_cobrar = total_consumos
+    if request.method == 'POST':
+        exito, mensaje = EstadiaLogic.realizar_checkout(estadia_id)
+        if exito:
+            return render_template('mensaje.html',
+                                   mensaje="Check-out realizado correctamente. Habitación liberada.",
+                                   url_volver=url_for('home'),
+                                   texto_boton="Volver al Menú Principal")
+        else:
+            return render_template('mensaje.html', mensaje=mensaje)
+
+    return render_template('admin_checkout_process.html',
+                           persona_logueada=persona_logueada,
+                           estadia=estadia,
+                           total_consumos=total_consumos,
+                           total_a_cobrar=total_a_cobrar)
+
 if __name__ == '__main__':
     app.run(debug=True)

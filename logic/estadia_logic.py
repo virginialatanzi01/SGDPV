@@ -71,3 +71,17 @@ class EstadiaLogic:
     @classmethod
     def buscar_reservas_por_dni(cls, dni):
         return DataEstadia.get_reservas_pendientes_by_dni(dni)
+
+    @classmethod
+    def get_estadias_para_checkout(cls):
+        return DataEstadia.get_estadias_checkout_hoy()
+
+    @classmethod
+    def realizar_checkout(cls, id):
+        reserva = DataEstadia.get_estadia_by_id(id)
+        if reserva.estado != 'En curso':
+            return False, "La estadía no está en curso."
+        # Al dejar de estar 'En curso' o 'Reservada', la habitación se libera automáticamente
+        reserva.estado = 'Finalizada'
+        DataEstadia.update_estadia()
+        return True, "Check-out realizado con éxito."

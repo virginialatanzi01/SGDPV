@@ -1,4 +1,5 @@
 from data.data_habitacion import DataHabitacion
+from data.data_estadia import DataEstadia  # <--- IMPORTACIÓN NECESARIA
 
 class HabitacionLogic:
     @classmethod
@@ -22,3 +23,12 @@ class HabitacionLogic:
     @classmethod
     def delete_habitacion(cls, nro_habitacion):
         DataHabitacion.delete_habitacion(nro_habitacion)
+
+    @classmethod
+    def get_habitacion_disponible_by_tipo(cls, tipo_id, f_ingreso, f_egreso):
+        habitaciones_del_tipo = DataHabitacion.get_habitaciones_by_tipo(tipo_id)
+        habitaciones_ocupadas_ids = DataEstadia.get_habitaciones_ocupadas_ids(f_ingreso, f_egreso)
+        for habitacion in habitaciones_del_tipo:
+            if habitacion.id not in habitaciones_ocupadas_ids:
+                return habitacion
+        return None

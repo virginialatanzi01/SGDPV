@@ -84,7 +84,7 @@
     <div class="voucher-card">
         <img src="{{ url_for('static', filename='hotel_logo.png') }}" alt="Logo" style="width: 80px; margin-bottom: 20px;">
         <div class="voucher-title">Reserva Confirmada</div>
-        <div class="voucher-subtitle">Comprobante #{{ reserva.id }}</div>
+        <div class="voucher-subtitle">Reserva{{ reserva.id }}</div>
 
         <div class="detail-row">
             <span class="detail-label">Cliente:</span>
@@ -107,7 +107,7 @@
         {% set partes = precio_str.split('.') %}
 
         <div class="total-row">
-            <span>Costo Estadía:</span>
+            <span>Costo estadía:</span>
             <span>${{ partes[0] }}<sup class="cents">{{ partes[1] }}</sup></span>
         </div>
 

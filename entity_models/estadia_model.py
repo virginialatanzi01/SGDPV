@@ -19,3 +19,4 @@ class Estadia(db.Model):
     persona = db.relationship('Persona', backref='estadias')
     tipo_habitacion = db.relationship('TipoHabitacion', backref='estadias')
     habitacion = db.relationship('Habitacion', backref='estadias')
+    consumos = db.relationship('Consumo', backref='estadia', lazy=True)

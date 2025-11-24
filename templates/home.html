@@ -175,8 +175,8 @@
             {% elif persona_logueada.tipo_persona == 'administrador' %}
                 <a href="{{ url_for('add_persona') }}" class="button button-admin">Añadir persona</a>
                 <button class="button button-admin">Enviar recordatorios</button>
-                <button class="button button-check-in">Check-in</button>
-                <button class="button button-admin">Añadir servicios</button>
+                <a href="{{ url_for('admin_checkin') }}" class="button button-check-in">Check-in</a>
+                <a href="{{ url_for('admin_cargar_servicios') }}" class="button button-admin">Añadir servicios</a>
                 <button class="button button-check-out">Check-out</button>
                 <button class="button button-admin">Reportes</button>
                 <a href="{{ url_for('read_datos_persona', id=persona_logueada.id) }}" class="button button-mi-cuenta">Mi cuenta</a>

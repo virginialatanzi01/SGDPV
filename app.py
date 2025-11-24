@@ -1,7 +1,6 @@
 import ast
 import random
 from datetime import datetime, timedelta, date
-
 from flask import Flask, render_template, url_for, redirect, request, session, jsonify
 from flask_mail import Message, Mail
 from flask_migrate import Migrate
@@ -10,6 +9,7 @@ from sqlalchemy.orm.exc import ObjectDeletedError, StaleDataError
 from werkzeug.exceptions import NotFound
 
 from data.database import Database
+
 from entity_models.persona_model import Persona
 from entity_models.registro_cliente_form import RegistroClienteForm
 from entity_models.registro_form import RegistroForm
@@ -18,10 +18,17 @@ from entity_models.reserva_form import BusquedaReservaForm, ModificarReservaForm
 from entity_models.tipo_habitacion_model import TipoHabitacion
 from entity_models.habitacion_model import Habitacion
 from entity_models.estadia_model import Estadia
+from entity_models.busqueda_cliente_form import BusquedaClienteForm
+from entity_models.servicio_model import Servicio
+from entity_models.consumo_model import Consumo
+from entity_models.consumo_form import CargarConsumoForm
+
 from logic.tipo_habitacion_logic import TipoHabitacionLogic
 from logic.persona_logic import PersonaLogic
 from logic.persona_logic import PersonaLogic
 from logic.estadia_logic import EstadiaLogic
+from logic.habitacion_logic import HabitacionLogic
+from logic.servicio_logic import ServicioLogic
 app = Flask(__name__)
 
 # Base de Datos
@@ -468,6 +475,109 @@ def modificar_reserva(id):
                            reserva=reserva,
                            hoy=fecha_hoy,
                            persona_logueada=persona_logueada)
+
+@app.route('/admin/checkin', methods=['GET', 'POST'])
+def admin_checkin():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return render_template('mensaje.html', mensaje='Acceso denegado')
+    form = BusquedaClienteForm()
+    reservas = None
+    dni_buscado = None
+    hoy = date.today()
+    if request.method == 'POST' and form.validate_on_submit():
+        dni_buscado = form.nro_documento.data
+        reservas = EstadiaLogic.buscar_reservas_por_dni(dni_buscado)
+    return render_template('admin_checkin_buscar.html',
+                           persona_logueada=persona_logueada,
+                           form=form,
+                           reservas=reservas,
+                           dni_buscado=dni_buscado,
+                           hoy=hoy)
+
+@app.route('/admin/procesar_checkin/<int:reserva_id>')
+def admin_procesar_checkin(reserva_id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    try:
+        reserva = EstadiaLogic.get_one_estadia(reserva_id)
+        if reserva.fecha_ingreso != date.today():
+            return render_template('mensaje.html',
+                                   mensaje="El Check-in solo se puede realizar en la fecha de ingreso estipulada.")
+        habitacion_asignada = HabitacionLogic.get_habitacion_disponible_by_tipo(
+            reserva.tipo_habitacion_id,
+            reserva.fecha_ingreso,
+            reserva.fecha_egreso
+        )
+        if not habitacion_asignada:
+            return render_template('mensaje.html',
+                                   mensaje='Error: No hay habitaciones físicas disponibles para asignar en este momento.')
+        reserva.estado = 'En curso'
+        reserva.habitacion_id = habitacion_asignada.id
+        # Aquí se simularía el cobro
+        from data.data_estadia import DataEstadia
+        DataEstadia.update_estadia()
+        return render_template('admin_checkin_exitoso.html',
+                               persona_logueada=persona_logueada,
+                               reserva=reserva,
+                               habitacion=habitacion_asignada)
+    except Exception as e:
+        app.logger.error(f"Error en checkin: {e}")
+        return render_template('mensaje.html', mensaje="Error al procesar el Check-in")
+
+
+@app.route('/admin/cargar_servicios', methods=['GET', 'POST'])
+def admin_cargar_servicios():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    form = CargarConsumoForm()
+    estadias_activas = Estadia.query.filter_by(estado='En curso').all()
+    opciones_estadias = []
+    for e in estadias_activas:
+        nro_hab = e.habitacion.nro_habitacion if e.habitacion else 'S/A'
+        label = f"Hab {nro_hab} - {e.persona.apellido}, {e.persona.nombre}"
+        opciones_estadias.append((e.id, label))
+    form.estadia_id.choices = opciones_estadias
+    servicios = ServicioLogic.get_all_servicios()
+    form.servicio_id.choices = [(s.id, f"{s.descripcion} (${s.precio})") for s in servicios]
+    if request.method == 'POST' and form.validate_on_submit():
+        try:
+            ServicioLogic.registrar_consumo(
+                estadia_id=form.estadia_id.data,
+                servicio_id=form.servicio_id.data,
+                cantidad=form.cantidad.data
+            )
+            return render_template('mensaje.html',
+                                   mensaje="Consumo registrado exitosamente",
+                                   url_volver=url_for('home'),
+                                   texto_boton="Volver al Menú Principal")
+        except Exception as e:
+            app.logger.error(f"Error al cargar consumo: {e}")
+            return render_template('mensaje.html', mensaje="Error al registrar el consumo.")
+    if not estadias_activas:
+        return render_template('mensaje.html',
+                               mensaje="No hay habitaciones ocupadas (Check-in realizado) para cargar servicios.")
+    return render_template('admin_add_servicios.html',
+                           form=form,
+                           persona_logueada=persona_logueada)
+
+@app.route('/mis_consumos/<int:estadia_id>')
+def mis_consumos(estadia_id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    estadia = EstadiaLogic.get_one_estadia(estadia_id)
+    if estadia.persona_id != persona_logueada.id:
+        return render_template('mensaje.html', mensaje="Acceso denegado")
+    consumos = estadia.consumos
+    total_consumos = sum(c.cantidad * c.precio_unitario_historico for c in consumos)
+    return render_template('mis_consumos.html',
+                           persona_logueada=persona_logueada,
+                           estadia=estadia,
+                           consumos=consumos,
+                           total=total_consumos)
 
 if __name__ == '__main__':
     app.run(debug=True)

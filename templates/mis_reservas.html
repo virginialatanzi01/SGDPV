@@ -60,6 +60,8 @@
         .status-reservada { background-color: #e3f2fd; color: #0d6efd; }
         .status-cancelada { background-color: #f8d7da; color: #842029; }
         .status-finalizada { background-color: #d1e7dd; color: #0f5132; }
+        /* Estilo para estado "En curso" */
+        .status-en-curso { background-color: #fff3cd; color: #856404; }
 
         .reserva-body { display: flex; gap: 20px; }
         .reserva-img { width: 120px; height: 90px; object-fit: cover; border-radius: 5px; }
@@ -94,6 +96,9 @@
         .btn-modificar { background-color: #D0963E; color: white; border: none; }
         .btn-modificar:hover { background-color: #b88432; color: white; }
 
+        .btn-consumos { background-color: #17a2b8; color: white; border: none; }
+        .btn-consumos:hover { background-color: #138496; color: white; }
+
         .top-bar {
             background-color: black;
             width: 100%;
@@ -115,7 +120,7 @@
     </div>
 
     <div class="container">
-        <h3 class="section-title">Reservas Pendientes</h3>
+        <h3 class="section-title">Reservas actuales</h3>
         {% if pendientes %}
             {% for r in pendientes %}
             <div class="reserva-card">
@@ -124,7 +129,13 @@
                         <h5 style="margin:0; font-family: 'Cambria Math', serif;">{{ r.tipo_habitacion.denominacion }}</h5>
                         <span class="reserva-id">Reserva #{{ r.id }}</span>
                     </div>
-                    <span class="reserva-status status-reservada">{{ r.estado }}</span>
+
+                    {% set status_class = 'status-reservada' %}
+                    {% if r.estado == 'En curso' %}
+                        {% set status_class = 'status-en-curso' %}
+                    {% endif %}
+
+                    <span class="reserva-status {{ status_class }}">{{ r.estado }}</span>
                 </div>
 
                 <div class="reserva-body">
@@ -146,8 +157,16 @@
                 </div>
 
                 <div class="reserva-actions">
-                    <a href="{{ url_for('modificar_reserva', id=r.id) }}" class="btn btn-sm btn-modificar">Modificar</a>
-                    <a href="{{ url_for('cancelar_reserva', id=r.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que desea cancelar esta reserva?');">Cancelar</a>
+                    {% if r.estado == 'En curso' %}
+                        <a href="{{ url_for('mis_consumos', estadia_id=r.id) }}" class="btn btn-sm btn-consumos">
+                            <i class="bi bi-receipt"></i> Ver Consumos
+                        </a>
+                    {% endif %}
+
+                    {% if r.estado == 'Reservada' %}
+                        <a href="{{ url_for('modificar_reserva', id=r.id) }}" class="btn btn-sm btn-modificar">Modificar</a>
+                        <a href="{{ url_for('cancelar_reserva', id=r.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que desea cancelar esta reserva?');">Cancelar</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

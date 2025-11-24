@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-in - VL Alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .container { max-width: 800px; }
+        .search-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn-search { background-color: #D0963E; color: white; font-weight: bold; border: none; }
+        .btn-search:hover { background-color: #b88432; color: white; }
+
+        .table-responsive { margin-top: 20px; }
+        .btn-checkin {
+            background-color: #03B615;
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+        .btn-checkin:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: black; height: 60px; width: 100%; position: fixed; top: 0; z-index: 1000; display: flex; align-items: center; padding-left: 20px;">
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo" style="height: 50px;">
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="search-card">
+            <h2 class="text-center mb-4" style="font-family: 'Cambria Math', serif; color: #D0963E;">Realizar Check-in</h2>
+
+            <form method="POST" class="d-flex gap-2 mb-4">
+                {{ form.csrf_token }}
+                <div class="flex-grow-1">
+                    {{ form.nro_documento(class="form-control form-control-lg", placeholder="Ingrese DNI del Cliente") }}
+                </div>
+                {{ form.buscar(class="btn btn-search") }}
+            </form>
+
+            {% if reservas is not none %}
+                {% if reservas %}
+                    <h5 class="mb-3">Reservas pendientes para DNI: {{ dni_buscado }}</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Reserva #</th>
+                                    <th>Cliente</th>
+                                    <th>Habitación</th>
+                                    <th>Fecha Ingreso</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for r in reservas %}
+                                <tr>
+                                    <td>{{ r.id }}</td>
+                                    <td>{{ r.persona.apellido }}, {{ r.persona.nombre }}</td>
+                                    <td>{{ r.tipo_habitacion.denominacion }}</td>
+                                    <td>
+                                        {{ r.fecha_ingreso.strftime('%d/%m/%Y') }}
+                                        {% if r.fecha_ingreso == hoy %}
+                                            <span class="badge bg-success">HOY</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if r.fecha_ingreso == hoy %}
+                                            <a href="{{ url_for('admin_procesar_checkin', reserva_id=r.id) }}"
+                                               class="btn btn-sm btn-checkin"
+                                               onclick="return confirm('¿Confirmar Check-in y Cobro?');">
+                                                <i class="bi bi-check-circle"></i> Check-in
+                                            </a>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-checkin" disabled title="Solo disponible en la fecha de ingreso">
+                                                Check-in
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        No se encontraron reservas pendientes para el DNI {{ dni_buscado }}.
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <div class="mt-3 text-center">
+                <a href="{{ url_for('home') }}" class="text-muted text-decoration-none">Volver al menú</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

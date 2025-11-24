@@ -47,13 +47,13 @@
             color: black;
             margin-top: 10px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
         }
         .cents {
             font-size: 0.6em;
             position: relative;
-            top: 2px;
-            margin-left: 1px;
+            top: -0.5em;
+            margin-left: 2px;
         }
         .total-price { font-size: 14px; color: #666; margin-top: 2px;}
         .room-img {
@@ -93,6 +93,31 @@
             border-radius: 5px;
         }
         .btn-volver:hover { background-color: #f0f0f0; color: black; }
+
+        /* NUEVOS ESTILOS PARA LOS TÍTULOS DE SECCIÓN */
+        .section-banner {
+            background-color: rgba(255, 255, 255, 0.95); /* Mismo fondo que las tarjetas */
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 40px; /* Más espacio arriba */
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-banner-text {
+            color: #D0963E; /* Color dorado */
+            font-family: 'Cambria Math', serif;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .section-banner i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
@@ -104,55 +129,112 @@
 
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 style="color: white; text-shadow: 2px 2px 4px #000; font-family: 'Cambria Math', serif;">Alojamientos Disponibles</h2>
+            <h2 style="color: white; text-shadow: 2px 2px 4px #000; font-family: 'Cambria Math', serif; font-weight: bold;">Alojamientos Disponibles</h2>
             <a href="{{ url_for('reservar_alojamiento') }}" class="btn btn-volver">Nueva Búsqueda</a>
         </div>
 
-        {% if resultados %}
-            {% for tipo in resultados %}
-            <div class="room-card">
-                <div class="room-info">
-                    <div class="room-title">{{ tipo.denominacion }}</div>
-                    <div class="room-desc">{{ tipo.descripcion }}</div>
-                    <div class="room-desc">Capacidad: {{ tipo.capacidad_personas }} personas</div>
-
-                    {% set precio_total = "{:.2f}".format(tipo.precio_por_noche * cantidad_noches) %}
-                    {% set partes_precio = precio_total.split('.') %}
-
-                    <div class="room-price">
-                        Precio total: ${{ partes_precio[0] }}<sup class="cents">{{ partes_precio[1] }}</sup>
-                    </div>
-
-                    <div class="total-price">(${{ tipo.precio_por_noche }} x {{ cantidad_noches }} noches)</div>
-
-                    <div style="color: #28a745; font-size: 13px; font-weight: bold; margin-top: 5px;">
-                        <i class="bi bi-check-circle-fill"></i> Se abona en el alojamiento
-                    </div>
-
-                    <form action="{{ url_for('previsualizar_reserva') }}" method="POST">
-                        <input type="hidden" name="tipo_id" value="{{ tipo.id }}">
-                        <input type="hidden" name="fecha_desde" value="{{ fecha_desde }}">
-                        <input type="hidden" name="fecha_hasta" value="{{ fecha_hasta }}">
-                        <input type="hidden" name="precio_total" value="{{ (tipo.precio_por_noche * cantidad_noches) }}">
-                        <input type="hidden" name="cantidad_noches" value="{{ cantidad_noches }}">
-                        <input type="hidden" name="cantidad_personas" value="{{ cantidad_personas }}">
-
-                        <button type="submit" class="btn btn-reservar">RESERVAR</button>
-                    </form>
-                </div>
-                <div>
-                    {% if tipo.nombre_imagen %}
-                        <img src="{{ url_for('static', filename='imagenes_tipos_habitaciones/' + tipo.nombre_imagen) }}" class="room-img" alt="{{ tipo.denominacion }}">
-                    {% else %}
-                        <img src="https://via.placeholder.com/250x180?text=Sin+Imagen" class="room-img" alt="Sin imagen">
-                    {% endif %}
-                </div>
+        {% if resultados_ideales %}
+            <div class="section-banner">
+                <h4 class="section-banner-text">
+                    <i class="bi bi-star-fill"></i> Ideales para tu estadía
+                </h4>
             </div>
+
+            {% for tipo in resultados_ideales %}
+                <div class="room-card">
+                    <div class="room-info">
+                        <div class="room-title">{{ tipo.denominacion }}</div>
+                        <div class="room-desc">{{ tipo.descripcion }}</div>
+                        <div class="room-desc">Capacidad: {{ tipo.capacidad_personas }} personas</div>
+
+                        {% set precio_total = "{:.2f}".format(tipo.precio_por_noche * cantidad_noches) %}
+                        {% set partes_precio = precio_total.split('.') %}
+
+                        <div class="room-price">
+                            Precio total: ${{ partes_precio[0] }}<sup class="cents">{{ partes_precio[1] }}</sup>
+                        </div>
+
+                        <div class="total-price">(${{ tipo.precio_por_noche }} x {{ cantidad_noches }} noches)</div>
+
+                        <div style="color: #28a745; font-size: 13px; font-weight: bold; margin-top: 5px;">
+                            <i class="bi bi-check-circle-fill"></i> Se abona en el alojamiento
+                        </div>
+
+                        <form action="{{ url_for('previsualizar_reserva') }}" method="POST">
+                            <input type="hidden" name="tipo_id" value="{{ tipo.id }}">
+                            <input type="hidden" name="fecha_desde" value="{{ fecha_desde }}">
+                            <input type="hidden" name="fecha_hasta" value="{{ fecha_hasta }}">
+                            <input type="hidden" name="precio_total" value="{{ (tipo.precio_por_noche * cantidad_noches) }}">
+                            <input type="hidden" name="cantidad_noches" value="{{ cantidad_noches }}">
+                            <input type="hidden" name="cantidad_personas" value="{{ cantidad_personas }}">
+
+                            <button type="submit" class="btn btn-reservar">RESERVAR</button>
+                        </form>
+                    </div>
+                    <div>
+                        {% if tipo.nombre_imagen %}
+                            <img src="{{ url_for('static', filename='imagenes_tipos_habitaciones/' + tipo.nombre_imagen) }}" class="room-img" alt="{{ tipo.denominacion }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/250x180?text=Sin+Imagen" class="room-img" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+                </div>
             {% endfor %}
-        {% else %}
-            <div class="alert alert-warning text-center" style="background-color: rgba(255,255,255,0.9);">
+        {% endif %}
+
+        {% if resultados_otros %}
+            <div class="section-banner">
+                <h4 class="section-banner-text">
+                    Otras opciones disponibles
+                </h4>
+            </div>
+
+            {% for tipo in resultados_otros %}
+                <div class="room-card">
+                    <div class="room-info">
+                        <div class="room-title">{{ tipo.denominacion }}</div>
+                        <div class="room-desc">{{ tipo.descripcion }}</div>
+                        <div class="room-desc">Capacidad: {{ tipo.capacidad_personas }} personas</div>
+
+                        {% set precio_total = "{:.2f}".format(tipo.precio_por_noche * cantidad_noches) %}
+                        {% set partes_precio = precio_total.split('.') %}
+
+                        <div class="room-price">
+                            Precio total: ${{ partes_precio[0] }}<sup class="cents">{{ partes_precio[1] }}</sup>
+                        </div>
+
+                        <div class="total-price">(${{ tipo.precio_por_noche }} x {{ cantidad_noches }} noches)</div>
+
+                        <div style="color: #28a745; font-size: 13px; font-weight: bold; margin-top: 5px;">
+                            <i class="bi bi-check-circle-fill"></i> Se abona en el alojamiento
+                        </div>
+
+                        <form action="{{ url_for('previsualizar_reserva') }}" method="POST">
+                            <input type="hidden" name="tipo_id" value="{{ tipo.id }}">
+                            <input type="hidden" name="fecha_desde" value="{{ fecha_desde }}">
+                            <input type="hidden" name="fecha_hasta" value="{{ fecha_hasta }}">
+                            <input type="hidden" name="precio_total" value="{{ (tipo.precio_por_noche * cantidad_noches) }}">
+                            <input type="hidden" name="cantidad_noches" value="{{ cantidad_noches }}">
+                            <input type="hidden" name="cantidad_personas" value="{{ cantidad_personas }}">
+
+                            <button type="submit" class="btn btn-reservar">RESERVAR</button>
+                        </form>
+                    </div>
+                    <div>
+                        {% if tipo.nombre_imagen %}
+                            <img src="{{ url_for('static', filename='imagenes_tipos_habitaciones/' + tipo.nombre_imagen) }}" class="room-img" alt="{{ tipo.denominacion }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/250x180?text=Sin+Imagen" class="room-img" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if not resultados_ideales and not resultados_otros %}
+            <div class="alert alert-warning text-center" style="background-color: rgba(255,255,255,0.9); margin-top: 30px;">
                 <h4>No se encontraron alojamientos disponibles para la capacidad solicitada.</h4>
-                <p>Intenta con otra cantidad de personas.</p>
+                <p>Intenta con otra cantidad de personas o fechas distintas.</p>
             </div>
         {% endif %}
     </div>

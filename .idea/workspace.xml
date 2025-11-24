@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/data/data_estadia.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity_models/estadia_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logic/estadia_logic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/comprobante_reserva.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/resumen_reserva.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/limpiar_estadias.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/mis_reservas.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/modificar_reserva.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_tipo_habitacion.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_tipo_habitacion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_estadia.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_estadia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entity_models/reserva_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/reserva_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/estadia_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/estadia_logic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/tipo_habitacion_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/resultados_busqueda.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/resultados_busqueda.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,31 +45,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.TP_SGDPV.executor": "Run",
-    "Python.reset_db.executor": "Run",
-    "Python.seed_admin.executor": "Run",
-    "Python.seed_alojamientos.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/VIRGI/Desktop/TP_SGDPV/templates",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.TP_SGDPV.executor&quot;: &quot;Run&quot;,
+    &quot;Python.reset_db.executor&quot;: &quot;Run&quot;,
+    &quot;Python.seed_admin.executor&quot;: &quot;Run&quot;,
+    &quot;Python.seed_alojamientos.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/VIRGI/Desktop/TP_SGDPV/templates&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\VIRGI\Desktop\TP_SGDPV\templates" />
@@ -117,6 +118,7 @@
       <workItem from="1763775477811" duration="6000" />
       <workItem from="1763775505287" duration="6815000" />
       <workItem from="1763822614706" duration="19822000" />
+      <workItem from="1763988521754" duration="3778000" />
     </task>
     <servers />
   </component>

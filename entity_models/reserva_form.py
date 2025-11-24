@@ -14,5 +14,10 @@ class BusquedaReservaForm(FlaskForm):
                                     choices=[(i, str(i)) for i in range(1, 5)],
                                     coerce=int,
                                     validators=[DataRequired()])
-
     buscar = SubmitField('Buscar Alojamiento')
+
+class ModificarReservaForm(FlaskForm):
+    fecha_desde = DateField('Fecha Desde', format='%Y-%m-%d', validators=[DataRequired()])
+    fecha_hasta = DateField('Fecha Hasta', format='%Y-%m-%d', validators=[DataRequired()])
+    cantidad_personas = IntegerField('Cantidad de Personas', validators=[DataRequired(), NumberRange(min=1, max=5)])
+    guardar = SubmitField('Guardar Cambios')

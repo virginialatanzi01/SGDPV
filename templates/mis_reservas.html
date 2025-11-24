@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Reservas - VL Alojamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .container { max-width: 900px; }
+
+        .section-title {
+            font-family: 'Cambria Math', serif;
+            color: white;
+            text-shadow: 2px 2px 4px #000;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #D0963E;
+            padding-bottom: 10px;
+        }
+
+        .reserva-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            position: relative;
+            border-left: 5px solid #D0963E; /* Borde dorado para activas */
+        }
+
+        .reserva-card.historica {
+            border-left: 5px solid #666; /* Borde gris para históricas */
+            opacity: 0.9;
+        }
+
+        .reserva-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .reserva-id { color: #666; font-size: 0.9em; }
+        .reserva-status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+        .status-reservada { background-color: #e3f2fd; color: #0d6efd; }
+        .status-cancelada { background-color: #f8d7da; color: #842029; }
+        .status-finalizada { background-color: #d1e7dd; color: #0f5132; }
+
+        .reserva-body { display: flex; gap: 20px; }
+        .reserva-img { width: 120px; height: 90px; object-fit: cover; border-radius: 5px; }
+
+        .info-item { margin-bottom: 5px; font-size: 0.95em; }
+        .info-label { font-weight: bold; color: #555; }
+
+        .reserva-actions {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-modificar { background-color: #D0963E; color: white; border: none; }
+        .btn-modificar:hover { background-color: #b88432; color: white; }
+
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo" style="height: 50px;">
+        </a>
+    </div>
+
+    <div class="container">
+        <h3 class="section-title">Reservas Pendientes</h3>
+        {% if pendientes %}
+            {% for r in pendientes %}
+            <div class="reserva-card">
+                <div class="reserva-header">
+                    <div>
+                        <h5 style="margin:0; font-family: 'Cambria Math', serif;">{{ r.tipo_habitacion.denominacion }}</h5>
+                        <span class="reserva-id">Reserva #{{ r.id }}</span>
+                    </div>
+                    <span class="reserva-status status-reservada">{{ r.estado }}</span>
+                </div>
+
+                <div class="reserva-body">
+                    <img src="{{ url_for('static', filename='imagenes_tipos_habitaciones/' + r.tipo_habitacion.nombre_imagen) }}" class="reserva-img">
+                    <div>
+                        <div class="info-item"><span class="info-label">Desde:</span> {{ r.fecha_ingreso.strftime('%d/%m/%Y') }}</div>
+                        <div class="info-item"><span class="info-label">Hasta:</span> {{ r.fecha_egreso.strftime('%d/%m/%Y') }}</div>
+                        <div class="info-item"><span class="info-label">Total:</span> ${{ "{:.2f}".format(r.precio_total) }}</div>
+                    </div>
+                </div>
+
+                <div class="reserva-actions">
+                    <a href="{{ url_for('modificar_reserva', id=r.id) }}" class="btn btn-sm btn-modificar">Modificar</a>
+                    <a href="{{ url_for('cancelar_reserva', id=r.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que desea cancelar esta reserva?');">Cancelar</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: white;">No tienes reservas pendientes.</p>
+        {% endif %}
+
+        <h3 class="section-title mt-5">Historial</h3>
+        {% if historicas %}
+            {% for r in historicas %}
+            <div class="reserva-card historica">
+                <div class="reserva-header">
+                    <div>
+                        <h5 style="margin:0; color: #666;">{{ r.tipo_habitacion.denominacion }}</h5>
+                        <span class="reserva-id">Reserva #{{ r.id }}</span>
+                    </div>
+                    {% set status_class = 'status-cancelada' if r.estado == 'Cancelada' else 'status-finalizada' %}
+                    <span class="reserva-status {{ status_class }}">{{ r.estado }}</span>
+                </div>
+
+                <div class="reserva-body">
+                    <div>
+                        <div class="info-item"><span class="info-label">Fechas:</span> {{ r.fecha_ingreso.strftime('%d/%m') }} - {{ r.fecha_egreso.strftime('%d/%m/%Y') }}</div>
+                        <div class="info-item"><span class="info-label">Total:</span> ${{ "{:.2f}".format(r.precio_total) }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: white;">No hay reservas históricas.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

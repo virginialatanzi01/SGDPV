@@ -14,7 +14,7 @@ from entity_models.persona_model import Persona
 from entity_models.registro_cliente_form import RegistroClienteForm
 from entity_models.registro_form import RegistroForm
 from entity_models.formularios_edicion import EditarDatosForm, CambiarContrasenaForm
-from entity_models.reserva_form import BusquedaReservaForm
+from entity_models.reserva_form import BusquedaReservaForm, ModificarReservaForm
 from entity_models.tipo_habitacion_model import TipoHabitacion
 from entity_models.habitacion_model import Habitacion
 from entity_models.estadia_model import Estadia
@@ -324,30 +324,23 @@ def reservar_alojamiento():
         fecha_hasta = form.fecha_hasta.data
         cant_personas = form.cantidad_personas.data
         if fecha_desde < date.today():
-            return render_template('reservar_alojamiento.html',
-                                   form=form,
-                                   persona_logueada=persona_logueada,
-                                   hoy=fecha_hoy,
-                                   error="La fecha de ingreso no puede ser en el pasado.")
+            return render_template('reservar_alojamiento.html', form=form, persona_logueada=persona_logueada,
+                                   hoy=fecha_hoy, error="La fecha de ingreso no puede ser en el pasado.")
         if fecha_hasta <= fecha_desde:
-            return render_template('reservar_alojamiento.html',
-                                   form=form,
-                                   persona_logueada=persona_logueada,
-                                   hoy=fecha_hoy,
-                                   error="La fecha de salida debe ser posterior a la de ingreso.")
+            return render_template('reservar_alojamiento.html', form=form, persona_logueada=persona_logueada,
+                                   hoy=fecha_hoy, error="La fecha de salida debe ser posterior a la de ingreso.")
         delta = fecha_hasta - fecha_desde
         cantidad_noches = delta.days
-        resultados = TipoHabitacionLogic.buscar_tipos_disponibles(fecha_desde, fecha_hasta, cant_personas)
+        ideales, otros = TipoHabitacionLogic.buscar_tipos_disponibles(fecha_desde, fecha_hasta, cant_personas)
         return render_template('resultados_busqueda.html',
                                persona_logueada=persona_logueada,
-                               resultados=resultados,
+                               resultados_ideales=ideales,  # Pasamos ideales
+                               resultados_otros=otros,  # Pasamos otros
                                cantidad_noches=cantidad_noches,
                                fecha_desde=fecha_desde,
-                               fecha_hasta=fecha_hasta)
-    return render_template('reservar_alojamiento.html',
-                           form=form,
-                           persona_logueada=persona_logueada,
-                           hoy=fecha_hoy)
+                               fecha_hasta=fecha_hasta,
+                               cantidad_personas=cant_personas)
+    return render_template('reservar_alojamiento.html', form=form, persona_logueada=persona_logueada, hoy=fecha_hoy)
 
 @app.route('/previsualizar_reserva', methods=['POST'])
 def previsualizar_reserva():
@@ -394,6 +387,82 @@ def confirmar_reserva():
     except Exception as e:
         app.logger.error(f"Error al reservar: {e}")
         return render_template('mensaje.html', mensaje="Ocurrió un error al procesar la reserva.")
+
+
+@app.route('/mis_reservas')
+def mis_reservas():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    pendientes, historicas = EstadiaLogic.get_mis_reservas(persona_logueada.id)
+    return render_template('mis_reservas.html',
+                           persona_logueada=persona_logueada,
+                           pendientes=pendientes,
+                           historicas=historicas)
+
+@app.route('/cancelar_reserva/<int:id>')
+def cancelar_reserva(id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    try:
+        reserva = EstadiaLogic.get_one_estadia(id)
+        if reserva.persona_id != persona_logueada.id:
+            return render_template('mensaje.html', mensaje="Acceso no autorizado")
+        EstadiaLogic.cancelar_reserva(id)
+        return redirect(url_for('mis_reservas'))
+    except Exception as e:
+        app.logger.error(f"Error al cancelar: {e}")
+        return render_template('mensaje.html', mensaje="Error al cancelar la reserva")
+
+@app.route('/modificar_reserva/<int:id>', methods=['GET', 'POST'])
+def modificar_reserva(id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada:
+        return redirect(url_for('login'))
+    reserva = EstadiaLogic.get_one_estadia(id)
+    # Seguridad: verificar dueño
+    if reserva.persona_id != persona_logueada.id:
+        return render_template('mensaje.html', mensaje="Acceso no autorizado")
+    # Solo se pueden modificar reservas en estado 'Reservada'
+    if reserva.estado != 'Reservada':
+        return render_template('mensaje.html', mensaje="No se puede modificar una reserva que no esté pendiente.")
+    form = ModificarReservaForm(obj=reserva)
+    if request.method == 'GET':
+        form.fecha_desde.data = reserva.fecha_ingreso
+        form.fecha_hasta.data = reserva.fecha_egreso
+        form.cantidad_personas.data = 1
+    fecha_hoy = date.today().strftime('%Y-%m-%d')
+    if request.method == 'POST' and form.validate_on_submit():
+        # 1. Validar Personas vs Capacidad Habitación
+        if form.cantidad_personas.data > reserva.tipo_habitacion.capacidad_personas:
+            error_msg = f"Esta habitación ({reserva.tipo_habitacion.denominacion}) solo permite hasta {reserva.tipo_habitacion.capacidad_personas} personas. Para más personas, cancele y reserve otra."
+            return render_template('modificar_reserva.html', form=form, reserva=reserva, hoy=fecha_hoy, error=error_msg,
+                                   persona_logueada=persona_logueada)
+        # 2. Validar Fechas
+        f_desde = form.fecha_desde.data
+        f_hasta = form.fecha_hasta.data
+        if f_desde < date.today():
+            return render_template('modificar_reserva.html', form=form, reserva=reserva, hoy=fecha_hoy,
+                                   error="La fecha no puede ser pasada.", persona_logueada=persona_logueada)
+        if f_hasta <= f_desde:
+            return render_template('modificar_reserva.html', form=form, reserva=reserva, hoy=fecha_hoy,
+                                   error="La salida debe ser posterior al ingreso.", persona_logueada=persona_logueada)
+        # 3. Intentar Modificar (Lógica valida disponibilidad)
+        exito, mensaje = EstadiaLogic.modificar_reserva(id, f_desde, f_hasta)
+        if exito:
+            return render_template('mensaje.html',
+                                   mensaje="Reserva modificada exitosamente",
+                                   url_volver=url_for('mis_reservas'),
+                                   texto_boton="Volver a Mis Reservas")
+        else:
+            return render_template('modificar_reserva.html', form=form, reserva=reserva, hoy=fecha_hoy, error=mensaje,
+                                   persona_logueada=persona_logueada)
+    return render_template('modificar_reserva.html',
+                           form=form,
+                           reserva=reserva,
+                           hoy=fecha_hoy,
+                           persona_logueada=persona_logueada)
 
 if __name__ == '__main__':
     app.run(debug=True)

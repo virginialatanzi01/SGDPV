@@ -14,7 +14,6 @@ class TipoHabitacionLogic:
 
     @classmethod
     def add_tipo_habitacion(cls, denominacion, descripcion, capacidad_personas, precio_por_noche, nombre_imagen):
-        # Creamos la instancia del objeto
         nuevo_tipo = TipoHabitacion(
             denominacion=denominacion,
             descripcion=descripcion,
@@ -28,16 +27,19 @@ class TipoHabitacionLogic:
 
     @classmethod
     def buscar_tipos_disponibles(cls, fecha_desde, fecha_hasta, cantidad_personas):
-        # En el futuro, cruzo con  tabla 'estadia' para ver disponibilidad real por fechas.
-        # Por ahora, filtramos solo por capacidad según el requerimiento actual.
-        return DataTipoHabitacion.get_tipos_by_capacidad(cantidad_personas)
-
-    @classmethod
-    def buscar_tipos_disponibles(cls, fecha_desde, fecha_hasta, cantidad_personas):
         tipos_capacidad = DataTipoHabitacion.get_tipos_by_capacidad(cantidad_personas)
         tipos_disponibles = []
         for tipo in tipos_capacidad:
             disponibles = DataEstadia.get_disponibilidad(tipo.id, fecha_desde, fecha_hasta)
             if disponibles > 0:
                 tipos_disponibles.append(tipo)
-        return tipos_disponibles
+        ideales = []
+        otros = []
+        for tipo in tipos_disponibles:
+            if tipo.capacidad_personas == cantidad_personas:
+                ideales.append(tipo)
+            else:
+                otros.append(tipo)
+        ideales.sort(key=lambda x: x.precio_por_noche)
+        otros.sort(key=lambda x: (x.capacidad_personas, x.precio_por_noche))
+        return ideales, otros

@@ -75,17 +75,25 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if e.fecha_egreso == hoy %}
-                                    <a href="{{ url_for('admin_procesar_checkout', estadia_id=e.id) }}"
-                                       class="btn btn-sm btn-checkout"
-                                       onclick="return confirm('¿Iniciar proceso de salida para Habitación #{{ e.habitacion.nro_habitacion }}?');">
-                                        <i class="bi bi-box-arrow-right"></i> Check-out
+                                <div class="d-flex gap-2">
+                                    <a href="{{ url_for('admin_modificar_estadia', id=e.id) }}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       title="Extender o acortar estadía">
+                                        <i class="bi bi-calendar-range"></i> Modificar
                                     </a>
-                                {% else %}
-                                    <button class="btn btn-sm btn-checkout" disabled title="Solo disponible en la fecha de egreso">
-                                        Check-out
-                                    </button>
-                                {% endif %}
+
+                                    {% if e.fecha_egreso == hoy %}
+                                        <a href="{{ url_for('admin_procesar_checkout', estadia_id=e.id) }}"
+                                           class="btn btn-sm btn-checkout"
+                                           onclick="return confirm('¿Iniciar proceso de salida para Habitación #{{ e.habitacion.nro_habitacion }}?');">
+                                            <i class="bi bi-box-arrow-right"></i> Check-out
+                                        </a>
+                                    {% else %}
+                                        <button class="btn btn-sm btn-checkout" disabled title="Solo disponible en la fecha de egreso">
+                                            Check-out
+                                        </button>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}

@@ -21,3 +21,7 @@ class ModificarReservaForm(FlaskForm):
     fecha_hasta = DateField('Fecha Hasta', format='%Y-%m-%d', validators=[DataRequired()])
     cantidad_personas = IntegerField('Cantidad de Personas', validators=[DataRequired(), NumberRange(min=1, max=5)])
     guardar = SubmitField('Guardar Cambios')
+
+class ModificarEgresoForm(FlaskForm):
+    fecha_egreso = DateField('Nueva Fecha de Salida', format='%Y-%m-%d', validators=[DataRequired()])
+    guardar = SubmitField('Actualizar Salida')

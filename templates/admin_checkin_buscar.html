@@ -90,8 +90,14 @@
                                                onclick="return confirm('¿Confirmar Check-in y Cobro?');">
                                                 <i class="bi bi-check-circle"></i> Check-in
                                             </a>
+                                        {% elif r.fecha_ingreso > hoy %}
+                                            <a href="{{ url_for('admin_early_checkin', reserva_id=r.id) }}"
+                                               class="btn btn-sm btn-warning text-dark"
+                                               onclick="return confirm('El huésped está llegando antes. ¿Desea ajustar la fecha a HOY y realizar el check-in? El precio se recalculará.');">
+                                                <i class="bi bi-clock-history"></i> Check-in Temprano
+                                            </a>
                                         {% else %}
-                                            <button class="btn btn-sm btn-checkin" disabled title="Solo disponible en la fecha de ingreso">
+                                            <button class="btn btn-sm btn-checkin" disabled title="Fecha vencida">
                                                 Check-in
                                             </button>
                                         {% endif %}
@@ -104,6 +110,21 @@
                 {% else %}
                     <div class="alert alert-warning text-center">
                         No se encontraron reservas pendientes para el DNI {{ dni_buscado }}.
+                    </div>
+                {% endif %}
+
+                {% if cliente_encontrado %}
+                    <div class="mt-4 p-3 border rounded bg-light text-center">
+                        <h5>¿El cliente no tiene reserva?</h5>
+                        <p class="mb-2">Puede registrar un ingreso inmediato (Walk-in) para <strong>{{ cliente_encontrado.nombre }} {{ cliente_encontrado.apellido }}</strong>.</p>
+                        <a href="{{ url_for('admin_walkin_config', persona_id=cliente_encontrado.id) }}" class="btn btn-dark">
+                            <i class="bi bi-door-open"></i> Iniciar Alojamiento Sin Reserva
+                        </a>
+                    </div>
+                {% elif dni_buscado %}
+                    <div class="mt-4 text-center">
+                        <p>El cliente no está registrado.</p>
+                        <a href="{{ url_for('add_persona') }}" class="btn btn-primary">Registrar Nueva Persona</a>
                     </div>
                 {% endif %}
             {% endif %}

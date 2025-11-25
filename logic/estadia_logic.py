@@ -85,3 +85,41 @@ class EstadiaLogic:
         reserva.estado = 'Finalizada'
         DataEstadia.update_estadia()
         return True, "Check-out realizado con éxito."
+
+    @classmethod
+    def modificar_fecha_egreso(cls, estadia_id, nueva_fecha_egreso):
+        estadia = DataEstadia.get_estadia_by_id(estadia_id)
+        if estadia.estado != 'En curso':
+            return False, "Solo se pueden modificar estadías en curso."
+        if nueva_fecha_egreso <= estadia.fecha_ingreso:
+            return False, "La fecha de salida debe ser posterior al ingreso."
+        esta_libre = DataEstadia.verificar_disponibilidad_habitacion_fisica(
+            estadia.habitacion_id,
+            estadia.fecha_ingreso,
+            nueva_fecha_egreso,
+            estadia.id
+        )
+        if not esta_libre:
+            return False, f"La habitación {estadia.habitacion.nro_habitacion} ya está reservada por otro huésped para esas fechas."
+        delta = nueva_fecha_egreso - estadia.fecha_ingreso
+        nuevas_noches = delta.days
+        nuevo_total = estadia.tipo_habitacion.precio_por_noche * nuevas_noches
+        estadia.fecha_egreso = nueva_fecha_egreso
+        estadia.precio_total = nuevo_total
+        DataEstadia.update_estadia()
+        return True, "Fecha de salida modificada correctamente."
+
+    @classmethod
+    def procesar_no_shows(cls):
+        return DataEstadia.cancelar_reservas_vencidas()
+
+    @classmethod
+    def calcular_nuevo_total_early_checkin(cls, estadia_id):
+        """Calcula el nuevo precio si se adelanta el ingreso a HOY."""
+        reserva = DataEstadia.get_estadia_by_id(estadia_id)
+        hoy = date.today()
+        if hoy >= reserva.fecha_ingreso:
+            return reserva.precio_total
+        dias_extra = (reserva.fecha_ingreso - hoy).days
+        costo_extra = dias_extra * reserva.tipo_habitacion.precio_por_noche
+        return reserva.precio_total + costo_extra

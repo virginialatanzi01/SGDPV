@@ -5,14 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_checkout.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_checkout_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_checkout_process.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_no_show.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/walkin_form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin_modificar_estadia.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin_walkin_config.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin_walkin_select.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/data_estadia.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_estadia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/reserva_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/reserva_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/estadia_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/estadia_logic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_checkin_buscar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_checkin_buscar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_checkout_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_checkout_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +53,7 @@
     "Python.seed_admin.executor": "Run",
     "Python.seed_alojamientos.executor": "Run",
     "Python.seed_checkout.executor": "Run",
+    "Python.seed_no_show.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -117,7 +122,8 @@
       <workItem from="1763822614706" duration="19822000" />
       <workItem from="1763988521754" duration="4445000" />
       <workItem from="1763993562522" duration="5121000" />
-      <workItem from="1764006656506" duration="5814000" />
+      <workItem from="1764006656506" duration="5867000" />
+      <workItem from="1764105674609" duration="2738000" />
     </task>
     <servers />
   </component>

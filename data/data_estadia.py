@@ -88,3 +88,32 @@ class DataEstadia:
         except Exception as e:
             app.logger.error(f"Error al buscar check-outs: {e}")
             return []
+
+    @classmethod
+    def verificar_disponibilidad_habitacion_fisica(cls, habitacion_id, f_ingreso, f_egreso, ignorar_estadia_id):
+        coincidencias = Estadia.query.filter(
+            Estadia.habitacion_id == habitacion_id,
+            Estadia.id != ignorar_estadia_id,
+            Estadia.estado.in_(['Reservada', 'En curso']),  # Solo conflictos con estadías activas
+            and_(Estadia.fecha_ingreso < f_egreso, Estadia.fecha_egreso > f_ingreso)
+        ).count()
+        return coincidencias == 0
+
+    @classmethod
+    def cancelar_reservas_vencidas(cls):
+        """Cancela reservas cuya fecha de ingreso ya pasó y siguen en estado 'Reservada'."""
+        try:
+            hoy = date.today()
+            vencidas = Estadia.query.filter(
+                Estadia.estado == 'Reservada',
+                Estadia.fecha_ingreso < hoy
+            ).all()
+            count = 0
+            for r in vencidas:
+                r.estado = 'Cancelada'
+                count += 1
+            Database.db.session.commit()
+            return count
+        except Exception as e:
+            app.logger.error(f"Error al cancelar vencidas: {e}")
+            return 0

@@ -14,7 +14,7 @@ from entity_models.persona_model import Persona
 from entity_models.registro_cliente_form import RegistroClienteForm
 from entity_models.registro_form import RegistroForm
 from entity_models.formularios_edicion import EditarDatosForm, CambiarContrasenaForm
-from entity_models.reserva_form import BusquedaReservaForm, ModificarReservaForm
+from entity_models.reserva_form import BusquedaReservaForm, ModificarReservaForm, ModificarEgresoForm
 from entity_models.tipo_habitacion_model import TipoHabitacion
 from entity_models.habitacion_model import Habitacion
 from entity_models.estadia_model import Estadia
@@ -22,6 +22,7 @@ from entity_models.busqueda_cliente_form import BusquedaClienteForm
 from entity_models.servicio_model import Servicio
 from entity_models.consumo_model import Consumo
 from entity_models.consumo_form import CargarConsumoForm
+from entity_models.walkin_form import WalkinForm
 
 from logic.tipo_habitacion_logic import TipoHabitacionLogic
 from logic.persona_logic import PersonaLogic
@@ -476,24 +477,131 @@ def modificar_reserva(id):
                            hoy=fecha_hoy,
                            persona_logueada=persona_logueada)
 
+
 @app.route('/admin/checkin', methods=['GET', 'POST'])
 def admin_checkin():
     persona_logueada = obtener_persona_logueada()
     if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
         return render_template('mensaje.html', mensaje='Acceso denegado')
+    EstadiaLogic.procesar_no_shows()
     form = BusquedaClienteForm()
     reservas = None
     dni_buscado = None
+    cliente_encontrado = None
     hoy = date.today()
     if request.method == 'POST' and form.validate_on_submit():
         dni_buscado = form.nro_documento.data
         reservas = EstadiaLogic.buscar_reservas_por_dni(dni_buscado)
+        from logic.persona_logic import PersonaLogic
+        cliente_encontrado = Persona.query.filter_by(nro_documento=dni_buscado).first()
+
     return render_template('admin_checkin_buscar.html',
                            persona_logueada=persona_logueada,
                            form=form,
                            reservas=reservas,
                            dni_buscado=dni_buscado,
+                           cliente_encontrado=cliente_encontrado,
                            hoy=hoy)
+
+
+@app.route('/admin/early_checkin/<int:reserva_id>')
+def admin_early_checkin(reserva_id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    reserva = EstadiaLogic.get_one_estadia(reserva_id)
+    hoy = date.today()
+    habitacion_asignada = HabitacionLogic.get_habitacion_disponible_by_tipo(
+        reserva.tipo_habitacion_id,
+        hoy,
+        reserva.fecha_egreso
+    )
+    if habitacion_asignada:
+        nuevo_precio = EstadiaLogic.calcular_nuevo_total_early_checkin(reserva_id)
+        reserva.fecha_ingreso = hoy
+        reserva.precio_total = nuevo_precio
+        reserva.estado = 'En curso'
+        reserva.habitacion_id = habitacion_asignada.id
+        from data.data_estadia import DataEstadia
+        DataEstadia.update_estadia()
+        return render_template('admin_checkin_exitoso.html',
+                               persona_logueada=persona_logueada,
+                               reserva=reserva,
+                               habitacion=habitacion_asignada,
+                               mensaje_extra="Se ha realizado un Check-in Temprano. Fechas y precio actualizados.")
+    else:
+        return render_template('mensaje.html',
+                               mensaje=f"No hay disponibilidad para adelantar el Check-in en una habitación {reserva.tipo_habitacion.denominacion}.",
+                               url_volver=url_for('cancelar_reserva', id=reserva.id),
+                               texto_boton="Cancelar Reserva e Iniciar Walk-in")
+
+
+@app.route('/admin/walkin_config/<int:persona_id>', methods=['GET', 'POST'])
+def admin_walkin_config(persona_id):
+    """Paso 1 Walk-in: Elegir fechas y personas"""
+    persona_logueada = obtener_persona_logueada()
+    cliente = PersonaLogic.get_one_persona(persona_id)
+    form = WalkinForm()
+    hoy = date.today()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        # Buscar tipos disponibles para HOY
+        f_egreso = form.fecha_egreso.data
+        cant_pax = form.cantidad_personas.data
+
+        if f_egreso <= hoy:
+            return render_template('admin_walkin_config.html', form=form, cliente=cliente, hoy=hoy,
+                                   error="La salida debe ser posterior a hoy.")
+
+        # Usamos la lógica de búsqueda existente
+        ideales, otros = TipoHabitacionLogic.buscar_tipos_disponibles(hoy, f_egreso, cant_pax)
+
+        # Unimos listas para simplificar selección de admin
+        todos_tipos = ideales + otros
+
+        return render_template('admin_walkin_select.html',
+                               persona_logueada=persona_logueada,
+                               cliente=cliente,
+                               tipos=todos_tipos,
+                               fecha_ingreso=hoy,
+                               fecha_egreso=f_egreso,
+                               cant_pax=cant_pax)
+
+    return render_template('admin_walkin_config.html',
+                           form=form, cliente=cliente, hoy=hoy, persona_logueada=persona_logueada)
+
+
+@app.route('/admin/walkin_confirmar', methods=['POST'])
+def admin_walkin_confirmar():
+    persona_logueada = obtener_persona_logueada()
+    cliente_id = request.form['cliente_id']
+    tipo_id = request.form['tipo_id']
+    fecha_ingreso = datetime.strptime(request.form['fecha_ingreso'], '%Y-%m-%d').date()
+    fecha_egreso = datetime.strptime(request.form['fecha_egreso'], '%Y-%m-%d').date()
+    cant_pax = int(request.form['cant_pax'])
+    precio_total = float(request.form['precio_total'])
+    habitacion = HabitacionLogic.get_habitacion_disponible_by_tipo(tipo_id, fecha_ingreso, fecha_egreso)
+    if not habitacion:
+        return render_template('mensaje.html', mensaje="Error: La habitación ya no está disponible.")
+    from entity_models.estadia_model import Estadia
+    from data.data_estadia import DataEstadia
+    nueva_estadia = Estadia(
+        persona_id=cliente_id,
+        tipo_habitacion_id=tipo_id,
+        habitacion_id=habitacion.id,
+        fecha_ingreso=fecha_ingreso,
+        fecha_egreso=fecha_egreso,
+        precio_total=precio_total,
+        cantidad_personas=cant_pax,
+        estado='En curso'  # Walk-in es inmediato
+    )
+    DataEstadia.add_estadia(nueva_estadia)
+
+    return render_template('admin_checkin_exitoso.html',
+                           persona_logueada=persona_logueada,
+                           reserva=nueva_estadia,
+                           habitacion=habitacion,
+                           mensaje_extra="Walk-in registrado exitosamente.")
 
 @app.route('/admin/procesar_checkin/<int:reserva_id>')
 def admin_procesar_checkin(reserva_id):
@@ -525,7 +633,6 @@ def admin_procesar_checkin(reserva_id):
     except Exception as e:
         app.logger.error(f"Error en checkin: {e}")
         return render_template('mensaje.html', mensaje="Error al procesar el Check-in")
-
 
 @app.route('/admin/cargar_servicios', methods=['GET', 'POST'])
 def admin_cargar_servicios():
@@ -579,7 +686,6 @@ def mis_consumos(estadia_id):
                            consumos=consumos,
                            total=total_consumos)
 
-
 @app.route('/admin/checkout')
 def admin_checkout_list():
     persona_logueada = obtener_persona_logueada()
@@ -616,6 +722,30 @@ def admin_procesar_checkout(estadia_id):
                            estadia=estadia,
                            total_consumos=total_consumos,
                            total_a_cobrar=total_a_cobrar)
+
+@app.route('/admin/modificar_estadia/<int:id>', methods=['GET', 'POST'])
+def admin_modificar_estadia(id):
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    estadia = EstadiaLogic.get_one_estadia(id)
+    form = ModificarEgresoForm()
+    if request.method == 'GET':
+        form.fecha_egreso.data = estadia.fecha_egreso
+
+    if request.method == 'POST' and form.validate_on_submit():
+        nueva_fecha = form.fecha_egreso.data
+        exito, mensaje = EstadiaLogic.modificar_fecha_egreso(id, nueva_fecha)
+        if exito:
+            return render_template('mensaje.html',
+                                   mensaje=f"Estadía actualizada. Nueva salida: {nueva_fecha.strftime('%d/%m/%Y')}",
+                                   url_volver=url_for('admin_checkout_list'),
+                                   texto_boton="Volver al Listado")
+        else:
+            return render_template('admin_modificar_estadia.html',
+                                   form=form, estadia=estadia, error=mensaje, persona_logueada=persona_logueada)
+    return render_template('admin_modificar_estadia.html',
+                           form=form, estadia=estadia, persona_logueada=persona_logueada)
 
 if __name__ == '__main__':
     app.run(debug=True)

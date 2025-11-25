@@ -3,6 +3,7 @@ from entity_models.estadia_model import Estadia
 from entity_models.habitacion_model import Habitacion
 from entity_models.persona_model import Persona
 from sqlalchemy import and_
+from sqlalchemy import extract
 from flask import current_app as app
 from datetime import date
 
@@ -117,3 +118,26 @@ class DataEstadia:
         except Exception as e:
             app.logger.error(f"Error al cancelar vencidas: {e}")
             return 0
+
+    @classmethod
+    def get_ventas_por_periodo(cls, f_desde, f_hasta):
+        try:
+            return Estadia.query.filter(
+                Estadia.estado.in_(['En curso', 'Finalizada']),
+                Estadia.fecha_ingreso >= f_desde,
+                Estadia.fecha_ingreso <= f_hasta
+            ).order_by(Estadia.fecha_ingreso).all()
+        except Exception as e:
+            app.logger.error(f"Error en reporte ventas: {e}")
+            return []
+
+    @classmethod
+    def get_estadias_por_anio(cls, anio):
+        try:
+            return Estadia.query.filter(
+                Estadia.estado.in_(['En curso', 'Finalizada']),
+                extract('year', Estadia.fecha_ingreso) == anio
+            ).all()
+        except Exception as e:
+            app.logger.error(f"Error en reporte ocupación: {e}")
+            return []

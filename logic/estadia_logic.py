@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from data.data_estadia import DataEstadia
 from entity_models.estadia_model import Estadia
 
@@ -123,3 +123,20 @@ class EstadiaLogic:
         dias_extra = (reserva.fecha_ingreso - hoy).days
         costo_extra = dias_extra * reserva.tipo_habitacion.precio_por_noche
         return reserva.precio_total + costo_extra
+
+    @classmethod
+    def generar_reporte_ventas(cls, f_desde, f_hasta):
+        return DataEstadia.get_ventas_por_periodo(f_desde, f_hasta)
+
+    @classmethod
+    def calcular_ocupacion_mensual(cls, anio):
+        estadias = DataEstadia.get_estadias_por_anio(anio)
+        ocupacion_por_mes = [0] * 12
+        for e in estadias:
+            dia_actual = e.fecha_ingreso
+            while dia_actual < e.fecha_egreso:
+                if dia_actual.year == anio:
+                    mes_index = dia_actual.month - 1
+                    ocupacion_por_mes[mes_index] += 1
+                dia_actual += timedelta(days=1)
+        return ocupacion_por_mes

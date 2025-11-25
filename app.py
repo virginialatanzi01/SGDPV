@@ -23,6 +23,7 @@ from entity_models.servicio_model import Servicio
 from entity_models.consumo_model import Consumo
 from entity_models.consumo_form import CargarConsumoForm
 from entity_models.walkin_form import WalkinForm
+from entity_models.reporte_form import ReporteVentasForm, ReporteOcupacionForm
 
 from logic.tipo_habitacion_logic import TipoHabitacionLogic
 from logic.persona_logic import PersonaLogic
@@ -746,6 +747,55 @@ def admin_modificar_estadia(id):
                                    form=form, estadia=estadia, error=mensaje, persona_logueada=persona_logueada)
     return render_template('admin_modificar_estadia.html',
                            form=form, estadia=estadia, persona_logueada=persona_logueada)
+
+
+@app.route('/admin/reportes')
+def admin_reportes_menu():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    return render_template('admin_reportes_menu.html', persona_logueada=persona_logueada)
+
+
+@app.route('/admin/reporte_ventas', methods=['GET', 'POST'])
+def admin_reporte_ventas():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    form = ReporteVentasForm()
+    resultados = []
+    total_ingresos = 0
+    if request.method == 'POST' and form.validate_on_submit():
+        resultados = EstadiaLogic.generar_reporte_ventas(form.fecha_desde.data, form.fecha_hasta.data)
+        for r in resultados:
+            extra = sum(c.cantidad * c.precio_unitario_historico for c in r.consumos)
+            total_ingresos += (r.precio_total + extra)
+    return render_template('admin_reporte_ventas.html',
+                           form=form,
+                           resultados=resultados,
+                           total_ingresos=total_ingresos,
+                           persona_logueada=persona_logueada)
+
+@app.route('/admin/reporte_ocupacion', methods=['GET', 'POST'])
+def admin_reporte_ocupacion():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    form = ReporteOcupacionForm()
+    anio_actual = date.today().year
+    form.anio.choices = [(anio_actual, anio_actual), (anio_actual - 1, anio_actual - 1)]
+    datos_grafico = []
+    anio_seleccionado = anio_actual
+    if request.method == 'POST':
+        anio_seleccionado = form.anio.data
+        datos_grafico = EstadiaLogic.calcular_ocupacion_mensual(anio_seleccionado)
+    else:
+        datos_grafico = EstadiaLogic.calcular_ocupacion_mensual(anio_actual)
+    return render_template('admin_reporte_ocupacion.html',
+                           form=form,
+                           datos=datos_grafico,
+                           anio=anio_seleccionado,
+                           persona_logueada=persona_logueada)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { background-color: #000000; color: #ffffff; padding: 20px; text-align: center; }
+        .content { padding: 30px; color: #333333; }
+        .detail-box { background-color: #fdfbf7; border-left: 4px solid #D0963E; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .footer { background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888; }
+        .label { font-weight: bold; color: #555; font-size: 13px; text-transform: uppercase; display: block; margin-top: 10px;}
+        .value { font-size: 16px; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2 style="margin:0; font-family: serif; color: #D0963E;">VL Alojamientos</h2>
+            <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.8;">Confirmación de Reserva</p>
+        </div>
+        <div class="content">
+            <p>Hola <strong>{{ reserva.persona.nombre }}</strong>, tu reserva ha sido registrada con éxito.</p>
+
+            <div class="detail-box">
+                <h3 style="margin-top: 0; color: #D0963E;">Reserva #{{ reserva.id }}</h3>
+
+                <span class="label">Alojamiento</span>
+                <span class="value">{{ reserva.tipo_habitacion.denominacion }}</span>
+
+                <span class="label">Fechas</span>
+                <span class="value">{{ reserva.fecha_ingreso.strftime('%d/%m/%Y') }} - {{ reserva.fecha_egreso.strftime('%d/%m/%Y') }}</span>
+
+                <span class="label">Huéspedes</span>
+                <span class="value">{{ reserva.cantidad_personas }} persona(s)</span>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+
+                <span class="label">Total a Abonar en Check-in</span>
+                <span class="value" style="font-size: 20px; font-weight: bold; color: #D0963E;">${{ "{:.2f}".format(reserva.precio_total) }}</span>
+            </div>
+
+            <p style="font-size: 13px; color: #777;">Recuerda que el Check-in es a partir de las 14:00 hs y el Check-out hasta las 11:00 hs.</p>
+        </div>
+        <div class="footer">
+            <p>Te esperamos pronto.<br>VL Alojamientos</p>
+        </div>
+    </div>
+</body>
+</html>

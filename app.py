@@ -1,8 +1,10 @@
 import ast
 import random
+from threading import Thread
+from flask_mail import Mail, Message
+import calendar
 from datetime import datetime, timedelta, date
 from flask import Flask, render_template, url_for, redirect, request, session, jsonify
-from flask_mail import Message, Mail
 from flask_migrate import Migrate
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import ObjectDeletedError, StaleDataError
@@ -27,10 +29,11 @@ from entity_models.reporte_form import ReporteVentasForm, ReporteOcupacionForm
 
 from logic.tipo_habitacion_logic import TipoHabitacionLogic
 from logic.persona_logic import PersonaLogic
-from logic.persona_logic import PersonaLogic
 from logic.estadia_logic import EstadiaLogic
 from logic.habitacion_logic import HabitacionLogic
 from logic.servicio_logic import ServicioLogic
+from logic.email_logic import EmailLogic  # <--- ¡AGREGADO IMPORTANTE!
+
 app = Flask(__name__)
 
 # Base de Datos
@@ -38,17 +41,30 @@ app.config['SQLALCHEMY_DATABASE_URI'] = Database.configura_conexion()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'konigari'
 
-# Configuración de Mail
+#Email
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'konigari2023'
-app.config['MAIL_PASSWORD'] = 'nrez dpvc rino mqjw'
-app.config['MAIL_DEFAULT_SENDER'] = 'konigari2023@gmail.com'
-app.config['CARRITO'] = []
+app.config['MAIL_USERNAME'] = 'vl.alojamientos@gmail.com'
+app.config['MAIL_PASSWORD'] = 'rcmq iphd enoz nuhv' # Tu clave generada
+app.config['MAIL_DEFAULT_SENDER'] = ('VL Alojamientos', 'vl.alojamientos@gmail.com')
 
 # Extensiones
 mail = Mail(app)
+# Función para enviar emails en segundo plano
+def send_async_email(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print(f"Error enviando email: {e}")
+
+# Helper para llamar desde la lógica
+def enviar_correo_async(asunto, destinatarios, template_html):
+    msg = Message(asunto, recipients=destinatarios)
+    msg.html = template_html
+    Thread(target=send_async_email, args=(app, msg)).start()
+
 Database.db.init_app(app)
 migrate = Migrate(app, Database.db)
 
@@ -145,18 +161,16 @@ def delete_persona(id):
                                mensaje='Página no encontrada',
                                persona_logueada=persona_logueada)
 
+
 @app.route('/agregar_persona', methods=['GET', 'POST'])
 def add_persona():
     persona_logueada = obtener_persona_logueada()
-
-    # CASO 1: Admin agrega persona
     if persona_logueada is not None and persona_logueada.tipo_persona == 'administrador':
         persona = Persona()
         registro_form = RegistroForm(obj=persona)
         if request.method == 'POST':
             contrasena = request.form['contrasena']
             nombre_usuario = request.form['nombre_usuario']
-
             if registro_form.validate_on_submit():
                 if PersonaLogic.get_persona_by_user(nombre_usuario):
                     return render_template('mensaje.html',
@@ -165,6 +179,7 @@ def add_persona():
                 else:
                     registro_form.populate_obj(persona)
                     PersonaLogic.add_persona(persona, contrasena)
+                    EmailLogic.enviar_bienvenida_registro(persona)
                     return render_template('mensaje.html',
                                            mensaje='Persona agregada correctamente',
                                            persona_logueada=persona_logueada)
@@ -175,64 +190,38 @@ def add_persona():
         return render_template('alta_persona.html',
                                persona_agregar=registro_form,
                                persona_logueada=persona_logueada)
-
-    # CASO 2: Usuario logueado pero no es admin (Error)
     elif persona_logueada is not None:
         return render_template('mensaje.html',
                                mensaje='Página no encontrada',
                                persona_logueada=persona_logueada)
-
-    # CASO 3: Registro Público (Cliente)
     else:
         administradores = PersonaLogic.get_all_administradores()
-        # Primer uso del sistema (crear admin)
-        if len(administradores) == 0:
-            persona = Persona()
-            registro_form = RegistroForm(obj=persona)
-            if request.method == 'POST':
-                contrasena = request.form['contrasena']
-                nombre_usuario = request.form['nombre_usuario']
-                if registro_form.validate_on_submit():
-                    if PersonaLogic.get_persona_by_user(nombre_usuario):
-                        return render_template('mensaje.html',
-                                               mensaje='Error: Nombre de usuario ya existente',
-                                               persona_logueada=persona_logueada)
-                    else:
-                        registro_form.populate_obj(persona)
-                        PersonaLogic.add_persona(persona, contrasena)
-                        return render_template('mensaje.html',
-                                               mensaje='Persona agregada correctamente',
-                                               persona_logueada=persona_logueada)
-            return render_template('alta_persona.html',
-                                   persona_agregar=registro_form,
-                                   persona_logueada=persona_logueada)
-        # Registro normal de cliente público
-        else:
-            persona = Persona()
-            registro_cliente_form = RegistroClienteForm(obj=persona)
-            if request.method == 'POST':
-                contrasena = request.form['contrasena']
-                nombre_usuario = request.form['nombre_usuario']
-                if registro_cliente_form.validate_on_submit():
-                    if PersonaLogic.get_persona_by_user(nombre_usuario):
-                        return render_template('mensaje.html',
-                                               mensaje='Error: Nombre de usuario ya existente',
-                                               persona_logueada=persona_logueada)
-                    else:
-                        registro_cliente_form.populate_obj(persona)
-                        persona.tipo_persona = 'cliente'
-                        PersonaLogic.add_persona(persona, contrasena)
-                        return render_template('mensaje.html',
-                                               mensaje='Se ha registrado correctamente. Por favor inicie sesión.',
-                                               persona_logueada=persona_logueada)
-                else:
+        persona = Persona()
+        registro_cliente_form = RegistroClienteForm(obj=persona)
+        if request.method == 'POST':
+            contrasena = request.form['contrasena']
+            nombre_usuario = request.form['nombre_usuario']
+            if registro_cliente_form.validate_on_submit():
+                if PersonaLogic.get_persona_by_user(nombre_usuario):
                     return render_template('mensaje.html',
-                                           mensaje='Error al registrarse',
+                                           mensaje='Error: Nombre de usuario ya existente',
+                                           persona_logueada=persona_logueada)
+                else:
+                    registro_cliente_form.populate_obj(persona)
+                    persona.tipo_persona = 'cliente'
+                    PersonaLogic.add_persona(persona, contrasena)
+                    EmailLogic.enviar_bienvenida_registro(persona)
+                    return render_template('mensaje.html',
+                                           mensaje='Se ha registrado correctamente. Por favor inicie sesión.',
                                            persona_logueada=persona_logueada)
             else:
-                return render_template('alta_persona.html',
-                                       persona_agregar=registro_cliente_form,
+                return render_template('mensaje.html',
+                                       mensaje='Error al registrarse',
                                        persona_logueada=persona_logueada)
+        else:
+            return render_template('alta_persona.html',
+                                   persona_agregar=registro_cliente_form,
+                                   persona_logueada=persona_logueada)
 
 @app.route('/editar_datos_personales', methods=['GET', 'POST'])
 def editar_datos_personales():
@@ -372,6 +361,7 @@ def previsualizar_reserva():
                            cantidad_noches=cantidad_noches,
                            cantidad_personas = cantidad_personas)
 
+
 @app.route('/confirmar_reserva', methods=['POST'])
 def confirmar_reserva():
     persona_logueada = obtener_persona_logueada()
@@ -391,8 +381,8 @@ def confirmar_reserva():
             precio_total=precio_total,
             cantidad_personas=cantidad_personas
         )
+        EmailLogic.enviar_confirmacion_reserva(reserva)
         tipo_habitacion = TipoHabitacionLogic.get_one_tipo(tipo_id)
-
         return render_template('comprobante_reserva.html',
                                persona=persona_logueada,
                                reserva=reserva,
@@ -413,6 +403,7 @@ def mis_reservas():
                            pendientes=pendientes,
                            historicas=historicas)
 
+
 @app.route('/cancelar_reserva/<int:id>')
 def cancelar_reserva(id):
     persona_logueada = obtener_persona_logueada()
@@ -423,6 +414,7 @@ def cancelar_reserva(id):
         if reserva.persona_id != persona_logueada.id:
             return render_template('mensaje.html', mensaje="Acceso no autorizado")
         EstadiaLogic.cancelar_reserva(id)
+        EmailLogic.enviar_notificacion_cancelacion(reserva)
         return redirect(url_for('mis_reservas'))
     except Exception as e:
         app.logger.error(f"Error al cancelar: {e}")
@@ -597,12 +589,13 @@ def admin_walkin_confirmar():
         estado='En curso'  # Walk-in es inmediato
     )
     DataEstadia.add_estadia(nueva_estadia)
-
+    EmailLogic.enviar_bienvenida_checkin(nueva_estadia)
     return render_template('admin_checkin_exitoso.html',
                            persona_logueada=persona_logueada,
                            reserva=nueva_estadia,
                            habitacion=habitacion,
                            mensaje_extra="Walk-in registrado exitosamente.")
+
 
 @app.route('/admin/procesar_checkin/<int:reserva_id>')
 def admin_procesar_checkin(reserva_id):
@@ -624,9 +617,10 @@ def admin_procesar_checkin(reserva_id):
                                    mensaje='Error: No hay habitaciones físicas disponibles para asignar en este momento.')
         reserva.estado = 'En curso'
         reserva.habitacion_id = habitacion_asignada.id
-        # Aquí se simularía el cobro
+
         from data.data_estadia import DataEstadia
         DataEstadia.update_estadia()
+        EmailLogic.enviar_bienvenida_checkin(reserva)
         return render_template('admin_checkin_exitoso.html',
                                persona_logueada=persona_logueada,
                                reserva=reserva,
@@ -700,6 +694,7 @@ def admin_checkout_list():
                            estadias=estadias,
                            hoy=hoy)
 
+
 @app.route('/admin/procesar_checkout/<int:estadia_id>', methods=['GET', 'POST'])
 def admin_procesar_checkout(estadia_id):
     persona_logueada = obtener_persona_logueada()
@@ -711,6 +706,7 @@ def admin_procesar_checkout(estadia_id):
     if request.method == 'POST':
         exito, mensaje = EstadiaLogic.realizar_checkout(estadia_id)
         if exito:
+            EmailLogic.enviar_recibo_checkout(estadia, total_consumos, total_a_cobrar)
             return render_template('mensaje.html',
                                    mensaje="Check-out realizado correctamente. Habitación liberada.",
                                    url_volver=url_for('home'),
@@ -749,53 +745,70 @@ def admin_modificar_estadia(id):
                            form=form, estadia=estadia, persona_logueada=persona_logueada)
 
 
-@app.route('/admin/reportes')
-def admin_reportes_menu():
+@app.route('/admin/dashboard', methods=['GET', 'POST'])
+def admin_dashboard():
     persona_logueada = obtener_persona_logueada()
     if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
         return redirect(url_for('login'))
-    return render_template('admin_reportes_menu.html', persona_logueada=persona_logueada)
+    hoy = date.today()
+    form_ventas = ReporteVentasForm(prefix='ventas')
+    form_ocupacion = ReporteOcupacionForm(prefix='ocupacion')
+    form_ocupacion.anio.choices = [(hoy.year, hoy.year), (hoy.year - 1, hoy.year - 1)]
+    if request.method == 'GET':
+        primer_dia_mes = date(hoy.year, hoy.month, 1)
+        ultimo_dia_mes = date(hoy.year, hoy.month, calendar.monthrange(hoy.year, hoy.month)[1])
+        form_ventas.fecha_desde.data = primer_dia_mes
+        form_ventas.fecha_hasta.data = ultimo_dia_mes
+        form_ocupacion.anio.data = hoy.year
 
-
-@app.route('/admin/reporte_ventas', methods=['GET', 'POST'])
-def admin_reporte_ventas():
-    persona_logueada = obtener_persona_logueada()
-    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
-        return redirect(url_for('login'))
-    form = ReporteVentasForm()
-    resultados = []
-    total_ingresos = 0
-    if request.method == 'POST' and form.validate_on_submit():
-        resultados = EstadiaLogic.generar_reporte_ventas(form.fecha_desde.data, form.fecha_hasta.data)
-        for r in resultados:
-            extra = sum(c.cantidad * c.precio_unitario_historico for c in r.consumos)
-            total_ingresos += (r.precio_total + extra)
-    return render_template('admin_reporte_ventas.html',
-                           form=form,
-                           resultados=resultados,
-                           total_ingresos=total_ingresos,
-                           persona_logueada=persona_logueada)
-
-@app.route('/admin/reporte_ocupacion', methods=['GET', 'POST'])
-def admin_reporte_ocupacion():
-    persona_logueada = obtener_persona_logueada()
-    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
-        return redirect(url_for('login'))
-    form = ReporteOcupacionForm()
-    anio_actual = date.today().year
-    form.anio.choices = [(anio_actual, anio_actual), (anio_actual - 1, anio_actual - 1)]
-    datos_grafico = []
-    anio_seleccionado = anio_actual
-    if request.method == 'POST':
-        anio_seleccionado = form.anio.data
-        datos_grafico = EstadiaLogic.calcular_ocupacion_mensual(anio_seleccionado)
+    # Lógica de Ventas
+    if form_ventas.submit.data and form_ventas.validate():
+        f_desde = form_ventas.fecha_desde.data
+        f_hasta = form_ventas.fecha_hasta.data
     else:
-        datos_grafico = EstadiaLogic.calcular_ocupacion_mensual(anio_actual)
-    return render_template('admin_reporte_ocupacion.html',
-                           form=form,
-                           datos=datos_grafico,
-                           anio=anio_seleccionado,
-                           persona_logueada=persona_logueada)
+        f_desde = form_ventas.fecha_desde.data
+        f_hasta = form_ventas.fecha_hasta.data
+    ventas_resultados = EstadiaLogic.generar_reporte_ventas(f_desde, f_hasta)
+    total_ingresos = 0
+    for r in ventas_resultados:
+        extra = sum(c.cantidad * c.precio_unitario_historico for c in r.consumos)
+        total_ingresos += (r.precio_total + extra)
+
+    # Lógica de Ocupación
+    if form_ocupacion.submit.data and form_ocupacion.validate():
+        anio_seleccionado = form_ocupacion.anio.data
+    else:
+        anio_seleccionado = form_ocupacion.anio.data or hoy.year
+    ocupacion_data = EstadiaLogic.calcular_ocupacion_mensual(anio_seleccionado)
+    return render_template('admin_dashboard.html',
+                           persona_logueada=persona_logueada,
+                           form_ventas=form_ventas,
+                           form_ocupacion=form_ocupacion,
+                           ventas=ventas_resultados,
+                           total_ingresos=total_ingresos,
+                           ocupacion_data=ocupacion_data,
+                           anio_ocupacion=anio_seleccionado)
+
+
+@app.route('/admin/enviar_recordatorios')
+def admin_enviar_recordatorios():
+    persona_logueada = obtener_persona_logueada()
+    if not persona_logueada or persona_logueada.tipo_persona != 'administrador':
+        return redirect(url_for('login'))
+    manana = date.today() + timedelta(days=1)
+    from entity_models.estadia_model import Estadia
+    reservas_manana = Estadia.query.filter(
+        Estadia.fecha_ingreso == manana,
+        Estadia.estado == 'Reservada'
+    ).all()
+    count = 0
+    for r in reservas_manana:
+        EmailLogic.enviar_recordatorio_manana(r)
+        count += 1
+    return render_template('mensaje.html',
+                           mensaje=f"Se han enviado {count} recordatorios para las reservas de mañana ({manana.strftime('%d/%m')}).",
+                           persona_logueada=persona_logueada,
+                           url_volver=url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { background-color: #000000; color: #ffffff; padding: 20px; text-align: center; }
+        .content { padding: 30px; color: #333333; }
+        .table-invoice { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-invoice th { background-color: #f8f9fa; color: #333; padding: 10px; text-align: left; border-bottom: 2px solid #D0963E; font-size: 14px; }
+        .table-invoice td { padding: 12px 10px; border-bottom: 1px solid #eeeeee; font-size: 14px; }
+        .text-right { text-align: right; }
+        .total-row td { font-weight: bold; color: #000; font-size: 16px; border-top: 2px solid #333; background-color: #fff; }
+        .footer { background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888; }
+        .status-paid { color: #28a745; font-weight: bold; font-size: 12px; text-transform: uppercase; border: 1px solid #28a745; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2 style="margin:0; font-family: serif; color: #D0963E;">VL Alojamientos</h2>
+            <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.8;">Resumen de Cuenta</p>
+        </div>
+
+        <div class="content">
+            <p>Hola <strong>{{ reserva.persona.nombre }} {{ reserva.persona.apellido }}</strong>,</p>
+            <p>Gracias por tu estadía con nosotros. Aquí tienes el detalle final de tus consumos y el alojamiento.</p>
+
+            <div style="background-color: #fdfbf7; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #D0963E;">
+                <strong>Reserva #{{ reserva.id }}</strong><br>
+                <span style="font-size: 13px; color: #555;">{{ reserva.tipo_habitacion.denominacion }} - Habitación {{ reserva.habitacion.nro_habitacion }}</span><br>
+                <span style="font-size: 13px; color: #555;">Check-in: {{ reserva.fecha_ingreso.strftime('%d/%m/%Y') }} | Check-out: {{ reserva.fecha_egreso.strftime('%d/%m/%Y') }}</span>
+            </div>
+
+            <table class="table-invoice">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th class="text-right">Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Alojamiento (Estadía Base)
+                            <span class="status-paid">Abonado en Check-in</span>
+                        </td>
+                        <td class="text-right">${{ "{:.2f}".format(reserva.precio_total) }}</td>
+                    </tr>
+
+                    {% if reserva.consumos %}
+                        {% for c in reserva.consumos %}
+                        <tr>
+                            <td>
+                                <span style="color: #D0963E;">•</span> {{ c.servicio.descripcion }}
+                                <span style="color: #777; font-size: 12px;">(x{{ c.cantidad }})</span>
+                            </td>
+                            <td class="text-right">${{ "{:.2f}".format(c.cantidad * c.precio_unitario_historico) }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2" style="text-align: center; color: #999; font-style: italic;">Sin consumos adicionales</td>
+                        </tr>
+                    {% endif %}
+
+                    <tr>
+                        <td style="padding-top: 20px;">Subtotal Extras (Abonado en Check-out)</td>
+                        <td class="text-right" style="padding-top: 20px;">${{ "{:.2f}".format(total_consumos) }}</td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td>COSTO TOTAL DEL VIAJE</td>
+                        <td class="text-right" style="color: #D0963E;">${{ "{:.2f}".format(reserva.precio_total + total_consumos) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Este es un comprobante automático de VL Alojamientos.<br>¡Esperamos verte pronto!</p>
+        </div>
+    </div>
+</body>
+</html>

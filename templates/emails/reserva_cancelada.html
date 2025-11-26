@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { background-color: #000000; color: #ffffff; padding: 20px; text-align: center; border-bottom: 4px solid #dc3545; }
+        .content { padding: 30px; color: #333333; }
+        .footer { background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2 style="margin:0; font-family: serif; color: #D0963E;">VL Alojamientos</h2>
+            <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.8;">Cancelación de Reserva</p>
+        </div>
+        <div class="content">
+            <h3 style="color: #dc3545; margin-top: 0;">Reserva Cancelada</h3>
+            <p>Hola <strong>{{ reserva.persona.nombre }}</strong>,</p>
+            <p>Te informamos que tu reserva <strong>#{{ reserva.id }}</strong> prevista para el día <strong>{{ reserva.fecha_ingreso.strftime('%d/%m/%Y') }}</strong> ha sido cancelada correctamente.</p>
+
+            <p>Si esto fue un error o deseas reprogramar tu visita, por favor no dudes en contactarnos o realizar una nueva reserva a través de nuestra plataforma.</p>
+        </div>
+        <div class="footer">
+            <p>Esperamos poder recibirte en otra oportunidad.<br>VL Alojamientos</p>
+        </div>
+    </div>
+</body>
+</html>

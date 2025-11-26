@@ -5,14 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/entity_models/reporte_form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_reporte_ocupacion.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_reporte_ventas.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_reportes_menu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_test_checkout_juan.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_test_recordatorio.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logic/email_logic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin_dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/bienvenida.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/checkin_bienvenida.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/checkout_recibo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/emails_recordatorio.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/recordatorio.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/reserva_cancelada.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/reserva_confirmada.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_estadia.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_estadia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/estadia_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/estadia_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/reporte_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/reporte_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/Verde Oscuro y Dorado Elegante Hotelería Logo de Hotel (1).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/Verde Oscuro y Dorado Elegante Hotelería Logo de Hotel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_reporte_ocupacion.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_reporte_ventas.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_reportes_menu.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +62,8 @@
     "Python.seed_alojamientos.executor": "Run",
     "Python.seed_checkout.executor": "Run",
     "Python.seed_no_show.executor": "Run",
+    "Python.seed_test_checkout_juan.executor": "Run",
+    "Python.seed_test_recordatorio.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -120,7 +133,7 @@
       <workItem from="1763988521754" duration="4445000" />
       <workItem from="1763993562522" duration="5121000" />
       <workItem from="1764006656506" duration="5867000" />
-      <workItem from="1764105674609" duration="3522000" />
+      <workItem from="1764105674609" duration="10535000" />
     </task>
     <servers />
   </component>
@@ -133,6 +146,8 @@
     <SUITE FILE_PATH="coverage/app_py$TP_SGDPV.coverage" NAME="TP_SGDPV Coverage Results" MODIFIED="1763776393654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/app_py$reset_db.coverage" NAME="reset_db Coverage Results" MODIFIED="1763780793576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
     <SUITE FILE_PATH="coverage/app_py$seed_no_show.coverage" NAME="seed_no_show Coverage Results" MODIFIED="1764108641097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
+    <SUITE FILE_PATH="coverage/app_py$seed_test_checkout_juan.coverage" NAME="seed_test_checkout_juan Coverage Results" MODIFIED="1764118642956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
+    <SUITE FILE_PATH="coverage/app_py$seed_test_recordatorio.coverage" NAME="seed_test_recordatorio Coverage Results" MODIFIED="1764118209171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
     <SUITE FILE_PATH="coverage/app_py$seed_admin.coverage" NAME="seed_admin Coverage Results" MODIFIED="1763780801422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
   </component>
 </project>

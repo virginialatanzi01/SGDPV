@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { background-color: #000000; color: #ffffff; padding: 20px; text-align: center; }
+        .content { padding: 30px; color: #333333; text-align: center; }
+        .room-number { font-size: 48px; font-weight: bold; color: #D0963E; margin: 20px 0; display: block; }
+        .footer { background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2 style="margin:0; font-family: serif; color: #D0963E;">VL Alojamientos</h2>
+            <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.8;">¡Bienvenido a tu estadía!</p>
+        </div>
+        <div class="content">
+            <p>Nos complace tenerte con nosotros. El proceso de check-in se ha completado.</p>
+
+            <p>Tu habitación asignada es:</p>
+            <span class="room-number">#{{ reserva.habitacion.nro_habitacion }}</span>
+            <p style="font-style: italic; color: #666;">{{ reserva.tipo_habitacion.denominacion }}</p>
+
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; text-align: left;">
+                <strong>Información útil:</strong>
+                <ul style="margin-bottom: 0; padding-left: 20px; margin-top: 5px; font-size: 14px;">
+                    <li>Wi-Fi disponible en todo el hotel.</li>
+                    <li>Desayuno de 7:00 a 10:00 hs.</li>
+                    <li>Recepción disponible para cualquier consulta.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <p>¡Que disfrutes tu estancia!<br>VL Alojamientos</p>
+        </div>
+    </div>
+</body>
+</html>

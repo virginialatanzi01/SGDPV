@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { background-color: #000000; color: #ffffff; padding: 20px; text-align: center; }
+        .content { padding: 30px; color: #333333; line-height: 1.6; }
+        .footer { background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 12px; color: #888; }
+        .btn { display: inline-block; padding: 10px 20px; background-color: #D0963E; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2 style="margin:0; font-family: serif; color: #D0963E;">VL Alojamientos</h2>
+            <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.8;">Bienvenido</p>
+        </div>
+        <div class="content">
+            <h3 style="color: #D0963E;">¡Hola {{ persona.nombre }}!</h3>
+            <p>Nos alegra mucho darte la bienvenida a nuestra comunidad. Tu cuenta ha sido creada exitosamente.</p>
+            <p>A partir de ahora, podrás acceder a nuestro sistema para realizar reservas, gestionar tus estadías y disfrutar de una experiencia única en nuestros alojamientos.</p>
+            <div style="text-align: center;">
+                <a href="#" class="btn" style="color: white;">Ir al Sitio Web</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Gracias por elegirnos.<br>Equipo de VL Alojamientos</p>
+        </div>
+    </div>
+</body>
+</html>

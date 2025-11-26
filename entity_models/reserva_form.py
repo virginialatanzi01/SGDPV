@@ -7,21 +7,26 @@ from wtforms import DateField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 
 class BusquedaReservaForm(FlaskForm):
-    fecha_desde = DateField('Fecha Desde', format='%Y-%m-%d', validators=[DataRequired()])
-    fecha_hasta = DateField('Fecha Hasta', format='%Y-%m-%d', validators=[DataRequired()])
+    fecha_desde = DateField('Fecha desde', format='%Y-%m-%d', validators=[DataRequired()])
+    fecha_hasta = DateField('Fecha hasta', format='%Y-%m-%d', validators=[DataRequired()])
 
-    cantidad_personas = SelectField('Cantidad de Personas',
+    cantidad_personas = SelectField('Cantidad de personas',
                                     choices=[(i, str(i)) for i in range(1, 5)],
                                     coerce=int,
                                     validators=[DataRequired()])
-    buscar = SubmitField('Buscar Alojamiento')
+    buscar = SubmitField('Buscar alojamiento')
+
 
 class ModificarReservaForm(FlaskForm):
-    fecha_desde = DateField('Fecha Desde', format='%Y-%m-%d', validators=[DataRequired()])
-    fecha_hasta = DateField('Fecha Hasta', format='%Y-%m-%d', validators=[DataRequired()])
-    cantidad_personas = IntegerField('Cantidad de Personas', validators=[DataRequired(), NumberRange(min=1, max=5)])
-    guardar = SubmitField('Guardar Cambios')
+    fecha_desde = DateField('Fecha desde', format='%Y-%m-%d', validators=[DataRequired()])
+    fecha_hasta = DateField('Fecha hasta', format='%Y-%m-%d', validators=[DataRequired()])
+    cantidad_personas = SelectField('Cantidad de personas',
+                                    choices=[(i, str(i)) for i in range(1, 5)],
+                                    coerce=int,
+                                    validators=[DataRequired()])
+
+    guardar = SubmitField('Guardar cambios')
 
 class ModificarEgresoForm(FlaskForm):
-    fecha_egreso = DateField('Nueva Fecha de Salida', format='%Y-%m-%d', validators=[DataRequired()])
-    guardar = SubmitField('Actualizar Salida')
+    fecha_egreso = DateField('Nueva Fecha de salida', format='%Y-%m-%d', validators=[DataRequired()])
+    guardar = SubmitField('Actualizar salida')

@@ -2,33 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Seleccionar Habitación - VL Alojamientos</title>
+    <title>Seleccionar habitación - VL Alojamientos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        /* Mismos estilos generales */
-        body { background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}"); background-size: cover; padding-top: 50px; min-height: 100vh;}
+        body {
+            background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}");
+            background-size: cover;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
         .container { max-width: 900px; }
-        .room-card { background-color: rgba(255,255,255,0.95); margin-bottom: 15px; padding: 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
-        .price { font-size: 1.2em; font-weight: bold; color: #000; }
+
+        .room-card {
+            background-color: rgba(255,255,255,0.95);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .price { font-size: 1.4em; font-weight: bold; color: #000; }
+
+        .btn-reservar-black {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .btn-reservar-black:hover {
+            background-color: #333;
+            color: white;
+        }
+
+        .btn-cancel-custom {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 10px 30px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: all 0.3s;
+        }
+        .btn-cancel-custom:hover {
+            background-color: #ffffff;
+            color: #000;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .top-bar {
+            background-color: black;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
+    <div class="top-bar">
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='hotel_logo_secundario.png') }}" alt="Logo" style="height: 50px;">
+        </a>
+    </div>
+
     <div class="container">
-        <h3 class="text-white text-center mb-4" style="text-shadow: 2px 2px 4px #000;">Habitaciones Disponibles para HOY</h3>
+        <h3 class="text-white text-center mb-4" style="text-shadow: 2px 2px 4px #000; font-family: 'Cambria Math', serif;">Habitaciones disponibles para HOY</h3>
 
         {% if tipos %}
             {% for t in tipos %}
             <div class="room-card">
                 <div>
-                    <h5 style="color: #D0963E; font-weight: bold;">{{ t.denominacion }}</h5>
-                    <p class="mb-0 text-muted">{{ t.descripcion }}</p>
-                    <small>Capacidad: {{ t.capacidad_personas }} pax</small>
+                    <h5 style="color: #D0963E; font-weight: bold; font-family: 'Cambria Math', serif; font-size: 1.3em;">{{ t.denominacion }}</h5>
+                    <p class="mb-1 text-muted">{{ t.descripcion }}</p>
+                    <small style="color: #555; font-weight: bold;">Capacidad: {{ t.capacidad_personas }} huéspedes</small>
                 </div>
                 <div class="text-end">
                     {% set dias = (fecha_egreso - fecha_ingreso).days %}
                     {% set total = t.precio_por_noche * dias %}
                     <div class="price">${{ "{:.2f}".format(total) }}</div>
-                    <small class="d-block mb-2">({{ dias }} noches)</small>
+                    <small class="d-block mb-3 text-muted">({{ dias }} noches)</small>
 
                     <form action="{{ url_for('admin_walkin_confirmar') }}" method="POST">
                         <input type="hidden" name="cliente_id" value="{{ cliente.id }}">
@@ -38,19 +105,25 @@
                         <input type="hidden" name="cant_pax" value="{{ cant_pax }}">
                         <input type="hidden" name="precio_total" value="{{ total }}">
 
-                        <button type="submit" class="btn btn-success btn-sm">
-                            CONFIRMAR ALOJAMIENTO
+                        <button type="submit" class="btn-reservar-black">
+                            CONFIRMAR
                         </button>
                     </form>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            <div class="alert alert-warning text-center">
-                No hay habitaciones disponibles para hoy con esa capacidad.
+            <div class="alert alert-warning text-center" style="background-color: rgba(255,255,255,0.9);">
+                <h4>No hay habitaciones disponibles para hoy con esa capacidad.</h4>
                 <a href="javascript:history.back()" class="btn btn-outline-dark btn-sm mt-2">Volver</a>
             </div>
         {% endif %}
+
+        <div class="text-center mt-5 mb-5">
+             <a href="{{ url_for('home') }}" class="btn-cancel-custom">
+                 <i class="bi bi-arrow-left"></i> Cancelar y volver
+             </a>
+        </div>
     </div>
 </body>
 </html>

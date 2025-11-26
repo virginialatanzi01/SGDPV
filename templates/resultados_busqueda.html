@@ -18,6 +18,51 @@
             padding-bottom: 40px;
         }
         .container { max-width: 900px; }
+
+        .header-banner {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 6px solid #D0963E;
+        }
+
+        .page-title {
+            margin: 0;
+            color: #333;
+            font-family: 'Cambria Math', serif;
+            font-weight: bold;
+            font-size: 28px;
+        }
+
+        .btn-gold {
+            background-color: #D0963E;
+            color: white;
+            border: none;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-gold:hover { background-color: #b88432; color: white; }
+
+        .btn-dark-outline {
+            background-color: transparent;
+            color: #333;
+            border: 2px solid #333;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-dark-outline:hover { background-color: #333; color: white; }
+
         .room-card {
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 10px;
@@ -72,6 +117,26 @@
             margin-top: 10px;
         }
         .btn-reservar:hover { background-color: #333; color: white; }
+
+        .section-banner {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+        }
+        .section-banner-text {
+            color: #D0963E;
+            font-family: 'Cambria Math', serif;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .section-banner i { margin-right: 10px; font-size: 1.2em; }
+
         .top-bar {
             background-color: black;
             width: 100%;
@@ -83,41 +148,6 @@
             top: 0;
             z-index: 1000;
         }
-        .btn-volver {
-            background-color: white;
-            color: black;
-            border: 1px solid black;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        .btn-volver:hover { background-color: #f0f0f0; color: black; }
-
-        /* NUEVOS ESTILOS PARA LOS TÍTULOS DE SECCIÓN */
-        .section-banner {
-            background-color: rgba(255, 255, 255, 0.95); /* Mismo fondo que las tarjetas */
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-top: 40px; /* Más espacio arriba */
-            margin-bottom: 20px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-        }
-
-        .section-banner-text {
-            color: #D0963E; /* Color dorado */
-            font-family: 'Cambria Math', serif;
-            font-size: 22px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .section-banner i {
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
     </style>
 </head>
 <body>
@@ -128,9 +158,16 @@
     </div>
 
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 style="color: white; text-shadow: 2px 2px 4px #000; font-family: 'Cambria Math', serif; font-weight: bold;">Alojamientos Disponibles</h2>
-            <a href="{{ url_for('reservar_alojamiento') }}" class="btn btn-volver">Nueva Búsqueda</a>
+        <div class="header-banner">
+            <h2 class="page-title">Alojamientos Disponibles</h2>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('reservar_alojamiento') }}" class="btn-gold">
+                    <i class="bi bi-search"></i> Nueva búsqueda
+                </a>
+                <a href="{{ url_for('home') }}" class="btn-dark-outline">
+                    <i class="bi bi-house-door-fill"></i> Menú principal
+                </a>
+            </div>
         </div>
 
         {% if resultados_ideales %}
@@ -184,7 +221,7 @@
 
         {% if resultados_otros %}
             <div class="section-banner">
-                <h4 class="section-banner-text">
+                <h4 class="section-banner-text" style="color: #666;">
                     Otras opciones disponibles
                 </h4>
             </div>

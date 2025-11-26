@@ -93,7 +93,6 @@ def cargar_datos():
                     print(f"  - Habitación {nro} ya existe.")
 
         Database.db.session.commit()
-        print("Carga de alojamientos finalizada.")
 
 
 if __name__ == '__main__':

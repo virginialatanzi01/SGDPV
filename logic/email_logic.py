@@ -57,3 +57,13 @@ class EmailLogic:
             enviar_correo_async("Recordatorio de tu reserva para mañana", [reserva.persona.email], html)
         except Exception as e:
             print(f"No se pudo enviar recordatorio: {e}")
+
+    @classmethod
+    def enviar_email_recuperacion(cls, persona, token):
+        from flask import url_for
+        url_recuperacion = url_for('restablecer_contrasena', token=token, _external=True)
+        html = render_template('emails/recuperar_password.html',
+                               persona=persona,
+                               url=url_recuperacion)
+        from app import enviar_correo_async
+        enviar_correo_async("Recuperación de Contraseña", [persona.email], html)

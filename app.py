@@ -1,3 +1,4 @@
+import os
 import ast
 import random
 from threading import Thread
@@ -9,6 +10,8 @@ from flask_migrate import Migrate
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import ObjectDeletedError, StaleDataError
 from werkzeug.exceptions import NotFound
+from dotenv import load_dotenv
+from itsdangerous import URLSafeTimedSerializer
 
 from data.database import Database
 
@@ -26,32 +29,34 @@ from entity_models.consumo_model import Consumo
 from entity_models.consumo_form import CargarConsumoForm
 from entity_models.walkin_form import WalkinForm
 from entity_models.reporte_form import ReporteVentasForm, ReporteOcupacionForm
+from entity_models.recupero_form import OlvideContrasenaForm, RestablecerContrasenaForm
 
 from logic.tipo_habitacion_logic import TipoHabitacionLogic
 from logic.persona_logic import PersonaLogic
 from logic.estadia_logic import EstadiaLogic
 from logic.habitacion_logic import HabitacionLogic
 from logic.servicio_logic import ServicioLogic
-from logic.email_logic import EmailLogic  # <--- ¡AGREGADO IMPORTANTE!
+from logic.email_logic import EmailLogic
 
+load_dotenv()
 app = Flask(__name__)
 
 # Base de Datos
 app.config['SQLALCHEMY_DATABASE_URI'] = Database.configura_conexion()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SECRET_KEY'] = 'konigari'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 #Email
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'vl.alojamientos@gmail.com'
-app.config['MAIL_PASSWORD'] = 'rcmq iphd enoz nuhv' # Tu clave generada
-app.config['MAIL_DEFAULT_SENDER'] = ('VL Alojamientos', 'vl.alojamientos@gmail.com')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = ('VL Alojamientos', os.getenv('MAIL_USERNAME'))
 
-# Extensiones
+# Envio de email
+
 mail = Mail(app)
-# Función para enviar emails en segundo plano
 def send_async_email(app, msg):
     with app.app_context():
         try:
@@ -59,7 +64,6 @@ def send_async_email(app, msg):
         except Exception as e:
             print(f"Error enviando email: {e}")
 
-# Helper para llamar desde la lógica
 def enviar_correo_async(asunto, destinatarios, template_html):
     msg = Message(asunto, recipients=destinatarios)
     msg.html = template_html
@@ -460,7 +464,7 @@ def modificar_reserva(id):
             return render_template('mensaje.html',
                                    mensaje="Reserva modificada exitosamente",
                                    url_volver=url_for('mis_reservas'),
-                                   texto_boton="Volver a Mis Reservas")
+                                   texto_boton="Volver a mis reservas")
         else:
             return render_template('modificar_reserva.html', form=form, reserva=reserva, hoy=fecha_hoy, error=mensaje,
                                    persona_logueada=persona_logueada)
@@ -526,7 +530,7 @@ def admin_early_checkin(reserva_id):
         return render_template('mensaje.html',
                                mensaje=f"No hay disponibilidad para adelantar el Check-in en una habitación {reserva.tipo_habitacion.denominacion}.",
                                url_volver=url_for('cancelar_reserva', id=reserva.id),
-                               texto_boton="Cancelar Reserva e Iniciar Walk-in")
+                               texto_boton="Cancelar reserva e iniciar Walk-in")
 
 
 @app.route('/admin/walkin_config/<int:persona_id>', methods=['GET', 'POST'])
@@ -654,7 +658,7 @@ def admin_cargar_servicios():
             return render_template('mensaje.html',
                                    mensaje="Consumo registrado exitosamente",
                                    url_volver=url_for('home'),
-                                   texto_boton="Volver al Menú Principal")
+                                   texto_boton="Volver al menú principal")
         except Exception as e:
             app.logger.error(f"Error al cargar consumo: {e}")
             return render_template('mensaje.html', mensaje="Error al registrar el consumo.")
@@ -710,7 +714,7 @@ def admin_procesar_checkout(estadia_id):
             return render_template('mensaje.html',
                                    mensaje="Check-out realizado correctamente. Habitación liberada.",
                                    url_volver=url_for('home'),
-                                   texto_boton="Volver al Menú Principal")
+                                   texto_boton="Volver al menú principal")
         else:
             return render_template('mensaje.html', mensaje=mensaje)
 
@@ -737,7 +741,7 @@ def admin_modificar_estadia(id):
             return render_template('mensaje.html',
                                    mensaje=f"Estadía actualizada. Nueva salida: {nueva_fecha.strftime('%d/%m/%Y')}",
                                    url_volver=url_for('admin_checkout_list'),
-                                   texto_boton="Volver al Listado")
+                                   texto_boton="Volver al listado")
         else:
             return render_template('admin_modificar_estadia.html',
                                    form=form, estadia=estadia, error=mensaje, persona_logueada=persona_logueada)
@@ -809,6 +813,50 @@ def admin_enviar_recordatorios():
                            mensaje=f"Se han enviado {count} recordatorios para las reservas de mañana ({manana.strftime('%d/%m')}).",
                            persona_logueada=persona_logueada,
                            url_volver=url_for('home'))
+
+
+@app.route('/olvide_contrasena', methods=['GET', 'POST'])
+def olvide_contrasena():
+    form = OlvideContrasenaForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        persona = PersonaLogic.get_persona_by_email(email)
+
+        if persona:
+            # Generar token seguro (expira en 3600 segs = 1 hora)
+            s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+            token = s.dumps(email, salt='recupero-password')
+            EmailLogic.enviar_email_recuperacion(persona, token)
+        return render_template('mensaje.html',
+                               mensaje='Si el correo existe, recibirás un enlace para restablecer tu contraseña.',
+                               url_volver=url_for('login'),
+                               texto_boton='Volver al login')
+
+    return render_template('olvide_contrasena.html', form=form)
+
+@app.route('/restablecer_contrasena/<token>', methods=['GET', 'POST'])
+def restablecer_contrasena(token):
+    s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    try:
+        # Decodifica el token (máximo 1 hora de validez)
+        email = s.loads(token, salt='recupero-password', max_age=3600)
+    except:
+        return render_template('mensaje.html',
+                               mensaje='El enlace de recuperación es inválido o ha expirado.',
+                               url_volver=url_for('olvide_contrasena'),
+                               texto_boton='Intentar nuevamente')
+    persona = PersonaLogic.get_persona_by_email(email)
+    if not persona:
+        return render_template('mensaje.html', mensaje='Usuario no encontrado.')
+    form = RestablecerContrasenaForm()
+    if form.validate_on_submit():
+        nueva_pass = form.nueva_contrasena.data
+        PersonaLogic.update_persona(persona, contrasena=nueva_pass)
+        return render_template('mensaje.html',
+                               mensaje='Tu contraseña ha sido actualizada correctamente.',
+                               url_volver=url_for('login'),
+                               texto_boton='Iniciar sesión')
+    return render_template('restablecer_contrasena.html', form=form)
 
 if __name__ == '__main__':
     app.run(debug=True)

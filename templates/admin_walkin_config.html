@@ -23,11 +23,27 @@
         }
         .btn-next { background-color: #D0963E; color: white; width: 100%; border: none; font-weight: bold; padding: 10px; }
         .btn-next:hover { background-color: #b88432; color: white; }
+
+        /* Estilo botón cancelar blanco */
+        .btn-cancel {
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .btn-cancel:hover { background-color: #f0f0f0; color: black; border-color: #bbb; }
     </style>
 </head>
 <body>
     <div class="card-walkin">
-        <h3 class="text-center mb-3" style="font-family: 'Cambria Math', serif; color: #D0963E;">Alojamiento Inmediato (Walk-in)</h3>
+        <h3 class="text-center mb-3" style="font-family: 'Cambria Math', serif; color: #D0963E;">Alojamiento inmediato (Walk-in)</h3>
 
         <div class="alert alert-info text-center">
             Cliente: <strong>{{ cliente.apellido }}, {{ cliente.nombre }}</strong><br>
@@ -48,12 +64,12 @@
 
             <div class="mb-4">
                 {{ form.cantidad_personas.label(class="form-label") }}
-                {{ form.cantidad_personas(class="form-control", placeholder="Ej: 2") }}
+                {{ form.cantidad_personas(class="form-select") }}
             </div>
 
             {{ form.buscar(class="btn btn-next") }}
 
-            <a href="{{ url_for('admin_checkin') }}" class="btn btn-outline-secondary w-100 mt-2">Cancelar</a>
+            <a href="{{ url_for('admin_checkin') }}" class="btn-cancel mt-2">Cancelar</a>
         </form>
     </div>
 </body>

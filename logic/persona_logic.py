@@ -127,3 +127,7 @@ class PersonaLogic:
             raise e
         except DBAPIError as e:
             raise e
+
+    @classmethod
+    def get_persona_by_email(cls, email):
+        return DataPersona.get_persona_by_email(email)

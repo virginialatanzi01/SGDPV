@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_test_checkout_juan.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_test_recordatorio.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logic/email_logic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/bienvenida.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/checkin_bienvenida.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/checkout_recibo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/emails_recordatorio.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/recordatorio.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/reserva_cancelada.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/emails/reserva_confirmada.html" afterDir="false" />
+    <list default="true" id="e0417a8d-b5ea-411c-851f-86f8bff9f2be" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_pruebas/seed_dashboard_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entity_models/recupero_form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/recuperar_password.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/olvide_contrasena.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/restablecer_contrasena.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TP_SGDPV.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TP_SGDPV.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606/storage_v2/_src_/database/konigari.MHeeHA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606/storage_v2/_src_/database/konigari.MHeeHA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606/storage_v2/_src_/database/konigari.MHeeHA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/924f72cb-34ae-419c-988b-eb1191d52606/storage_v2/_src_/database/konigari.MHeeHA/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_persona.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_persona.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/cargar_datos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/crear db.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/limpiar_estadias.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/reset_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_pruebas/reset_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_pruebas/seed_admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_alojamientos.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_pruebas/seed_alojamientos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_checkout.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_no_show.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_servicios.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_pruebas/seed_servicios.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_test_checkout_juan.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/seed_test_recordatorio.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_pruebas/ver_datos_prueba.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/busqueda_cliente_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/busqueda_cliente_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/formularios_edicion.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/formularios_edicion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entity_models/reporte_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/reporte_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Verde Oscuro y Dorado Elegante Hotelería Logo de Hotel (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Verde Oscuro y Dorado Elegante Hotelería Logo de Hotel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin_reporte_ocupacion.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin_reporte_ventas.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin_reportes_menu.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/reserva_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/reserva_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity_models/walkin_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/entity_models/walkin_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotel.rp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/email_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/email_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/persona_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logic/persona_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_add_servicios.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_add_servicios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_checkin_buscar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_checkin_buscar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_checkin_exitoso.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_checkin_exitoso.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_checkout_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_checkout_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_checkout_process.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_checkout_process.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_modificar_estadia.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_modificar_estadia.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_walkin_config.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_walkin_config.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin_walkin_select.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_walkin_select.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cambiar_contrasena.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cambiar_contrasena.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/comprobante_reserva.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comprobante_reserva.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/editar_datos_personales.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/editar_datos_personales.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mensaje.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mensaje.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mis_consumos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mis_consumos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mis_reservas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mis_reservas.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/modificar_reserva.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/modificar_reserva.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/reservar_alojamiento.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/reservar_alojamiento.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/resultados_busqueda.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/resultados_busqueda.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/resumen_reserva.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/resumen_reserva.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="35oTW1y7hYb9uKRaIEaNbli4fsg" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="362DwBGft4qBCfpVYQzJGYHj1Ok" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -56,37 +85,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.TP_SGDPV.executor": "Run",
-    "Python.reset_db.executor": "Run",
-    "Python.seed_admin.executor": "Run",
-    "Python.seed_alojamientos.executor": "Run",
-    "Python.seed_checkout.executor": "Run",
-    "Python.seed_no_show.executor": "Run",
-    "Python.seed_test_checkout_juan.executor": "Run",
-    "Python.seed_test_recordatorio.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/VIRGI/Desktop/TP_SGDPV/templates",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
-    ]
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\VIRGI\Desktop\TP_SGDPV\templates" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration name="TP_SGDPV" type="PythonConfigurationType" factoryName="Python">
       <module name="TP_SGDPV" />
@@ -122,32 +126,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="69a65533-004c-4282-88be-33ebc198aaa9" name="Changes" comment="" />
-      <created>1763775473919</created>
+      <changelist id="e0417a8d-b5ea-411c-851f-86f8bff9f2be" name="Changes" comment="" />
+      <created>1764196011529</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1763775473919</updated>
-      <workItem from="1763775477811" duration="6000" />
-      <workItem from="1763775505287" duration="6815000" />
-      <workItem from="1763822614706" duration="19822000" />
-      <workItem from="1763988521754" duration="4445000" />
-      <workItem from="1763993562522" duration="5121000" />
-      <workItem from="1764006656506" duration="5867000" />
-      <workItem from="1764105674609" duration="10535000" />
+      <updated>1764196011529</updated>
+      <workItem from="1764196015229" duration="42000" />
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/app_py$seed_checkout.coverage" NAME="seed_checkout Coverage Results" MODIFIED="1764013773069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
-    <SUITE FILE_PATH="coverage/app_py$seed_alojamientos.coverage" NAME="seed_alojamientos Coverage Results" MODIFIED="1763912013258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
-    <SUITE FILE_PATH="coverage/app_py$TP_SGDPV.coverage" NAME="TP_SGDPV Coverage Results" MODIFIED="1763776393654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$reset_db.coverage" NAME="reset_db Coverage Results" MODIFIED="1763780793576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
-    <SUITE FILE_PATH="coverage/app_py$seed_no_show.coverage" NAME="seed_no_show Coverage Results" MODIFIED="1764108641097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
-    <SUITE FILE_PATH="coverage/app_py$seed_test_checkout_juan.coverage" NAME="seed_test_checkout_juan Coverage Results" MODIFIED="1764118642956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
-    <SUITE FILE_PATH="coverage/app_py$seed_test_recordatorio.coverage" NAME="seed_test_recordatorio Coverage Results" MODIFIED="1764118209171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
-    <SUITE FILE_PATH="coverage/app_py$seed_admin.coverage" NAME="seed_admin Coverage Results" MODIFIED="1763780801422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db_pruebas" />
   </component>
 </project>

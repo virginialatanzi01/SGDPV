@@ -16,13 +16,13 @@ class EditarDatosForm(FlaskForm):
     telefono = StringField('Teléfono', validators=[DataRequired()])
     nombre_usuario = StringField('Usuario', validators=[DataRequired()])
     # Nota: No incluimos contraseña aquí
-    guardar = SubmitField('Guardar Cambios')
+    guardar = SubmitField('Guardar cambios')
 
 # Formulario para datos de usuario (solo contraseña)
 class CambiarContrasenaForm(FlaskForm):
-    nueva_contrasena = PasswordField('Nueva Contraseña', validators=[
+    nueva_contrasena = PasswordField('Nueva contraseña', validators=[
         DataRequired(),
         EqualTo('confirmar_contrasena', message='Las contraseñas deben coincidir')
     ])
-    confirmar_contrasena = PasswordField('Repetir Nueva Contraseña', validators=[DataRequired()])
-    guardar = SubmitField('Actualizar Contraseña')
+    confirmar_contrasena = PasswordField('Repetir nueva contraseña', validators=[DataRequired()])
+    guardar = SubmitField('Actualizar contraseña')

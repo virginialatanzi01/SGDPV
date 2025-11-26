@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar contraseña</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-image: url("{{ url_for('static', filename='hotel_fondo.jpeg') }}"); background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .card { background-color: rgba(255,255,255,0.95); padding: 30px; border-radius: 10px; width: 400px; }
+        .btn-submit { background-color: #D0963E; color: white; width: 100%; border: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h3 class="text-center mb-3" style="color: #D0963E;">Nueva contraseña</h3>
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class="mb-3">
+                {{ form.nueva_contrasena.label(class="form-label") }}
+                {{ form.nueva_contrasena(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.confirmar_contrasena.label(class="form-label") }}
+                {{ form.confirmar_contrasena(class="form-control") }}
+            </div>
+            {{ form.guardar(class="btn btn-submit") }}
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# --- Seguridad (LO MÁS IMPORTANTE) ---
+.env
+.env.local
+
+# --- Entorno Virtual ---
+.venv/
+venv/
+env/
+Lib/
+Scripts/
+Include/
+
+# --- Python (Archivos basura compilados) ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Configuración del IDE (PyCharm / VSCode) ---
+.idea/
+.vscode/
+
+# --- Archivos del Sistema Operativo ---
+.DS_Store
+Thumbs.db
+
+# --- Base de datos (Si usaras SQLite) ---
+*.sqlite3
+*.db

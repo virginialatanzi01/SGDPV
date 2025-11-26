@@ -30,7 +30,6 @@ def cargar_servicios():
                 print(f" - Ya existe: {data['descripcion']}")
 
         Database.db.session.commit()
-        print("Servicios actualizados.")
 
 if __name__ == '__main__':
     cargar_servicios()

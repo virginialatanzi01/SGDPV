@@ -123,3 +123,10 @@ class DataPersona:
         except Exception as e:
             app.logger.debug(f'Error inesperado: {e}')
             raise e
+
+    @classmethod
+    def get_persona_by_email(cls, email):
+        try:
+            return Persona.query.filter_by(email=email).first()
+        except Exception as e:
+            return None

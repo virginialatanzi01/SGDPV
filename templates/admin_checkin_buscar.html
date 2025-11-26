@@ -49,6 +49,8 @@
         <div class="search-card">
             <h2 class="text-center mb-4" style="font-family: 'Cambria Math', serif; color: #D0963E;">Realizar Check-in</h2>
 
+            <a href="{{ url_for('home') }}" class="btn btn-secondary mb-4">Volver al menú</a>
+
             <form method="POST" class="d-flex gap-2 mb-4">
                 {{ form.csrf_token }}
                 <div class="flex-grow-1">
@@ -118,20 +120,16 @@
                         <h5>¿El cliente no tiene reserva?</h5>
                         <p class="mb-2">Puede registrar un ingreso inmediato (Walk-in) para <strong>{{ cliente_encontrado.nombre }} {{ cliente_encontrado.apellido }}</strong>.</p>
                         <a href="{{ url_for('admin_walkin_config', persona_id=cliente_encontrado.id) }}" class="btn btn-dark">
-                            <i class="bi bi-door-open"></i> Iniciar Alojamiento Sin Reserva
+                            <i class="bi bi-door-open"></i> Iniciar alojamiento sin reserva
                         </a>
                     </div>
                 {% elif dni_buscado %}
                     <div class="mt-4 text-center">
                         <p>El cliente no está registrado.</p>
-                        <a href="{{ url_for('add_persona') }}" class="btn btn-primary">Registrar Nueva Persona</a>
+                        <a href="{{ url_for('add_persona') }}" class="btn btn-primary">Registrar nueva persona</a>
                     </div>
                 {% endif %}
             {% endif %}
-
-            <div class="mt-3 text-center">
-                <a href="{{ url_for('home') }}" class="text-muted text-decoration-none">Volver al menú</a>
-            </div>
         </div>
     </div>
 </body>
